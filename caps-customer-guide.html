@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>캡스 고객 안내</title>
+<style>
+  :root{
+    --blue:#1E3FFA;
+    --blue-dark:#132CB8;
+    --ink:#16181D;
+    --sub:#6B7280;
+    --line:#EAECF0;
+    --bg:#F6F7FB;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:480px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    padding-bottom:40px;
+  }
+
+  /* Top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    height:56px;
+    padding:0 8px;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+  }
+  .back-btn{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    border-radius:50%;
+  }
+  .back-btn:active{ background:rgba(0,0,0,0.06); }
+  .back-btn svg{ width:22px; height:22px; }
+  .topbar-title{
+    font-size:16px;
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  /* Home hero */
+  .hero{
+    padding:12px 20px 8px;
+  }
+  .hero .eyebrow{
+    font-size:13px;
+    font-weight:600;
+    color:var(--blue);
+    letter-spacing:0.02em;
+  }
+  .hero h1{
+    font-size:24px;
+    line-height:1.35;
+    margin:6px 0 4px;
+    font-weight:800;
+  }
+  .hero p{
+    font-size:14px;
+    color:var(--sub);
+    margin:0;
+    line-height:1.5;
+  }
+
+  /* Views */
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* Menu cards on home */
+  .menu{
+    padding:16px 16px 0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .menu-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px;
+    cursor:pointer;
+    text-align:left;
+    width:100%;
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 1px 2px rgba(16,24,40,0.04);
+  }
+  .menu-card:active{ transform:scale(0.98); background:#FAFBFF; }
+  .menu-icon{
+    flex:0 0 auto;
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .menu-icon svg{ width:24px; height:24px; }
+  .icon-warning{ background:#FFF6E5; }
+  .icon-warning svg{ color:#F79009; }
+  .icon-control{ background:#F3ECFF; }
+  .icon-control svg{ color:#7C3AED; }
+  .icon-disconnect{ background:#FFF1F0; }
+  .icon-disconnect svg{ color:#F04438; }
+  .icon-manual{ background:#ECFDF3; }
+  .icon-manual svg{ color:#12B76A; }
+  .icon-ac{ background:#EAF6FF; }
+  .icon-ac svg{ color:#0B96D0; }
+
+  .menu-text{ flex:1 1 auto; min-width:0; }
+  .menu-text .title{
+    font-size:16px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .menu-text .desc{
+    font-size:13px;
+    color:var(--sub);
+    line-height:1.4;
+  }
+  .chevron{
+    flex:0 0 auto;
+    color:#C0C4CC;
+  }
+  .chevron svg{ width:18px; height:18px; }
+
+  .support-strip{
+    margin:20px 16px 0;
+    padding:14px 16px;
+    background:#F0F3FF;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .support-strip svg{ width:18px; height:18px; color:var(--blue); flex:0 0 auto; }
+  .support-strip span{ font-size:13px; color:#3B3F51; line-height:1.5; }
+  .support-strip a{ color:var(--blue); font-weight:700; text-decoration:none; }
+
+  /* Detail content */
+  .content{
+    padding:4px 20px 24px;
+  }
+  .detail-title{
+    font-size:20px;
+    font-weight:800;
+    margin:8px 0 6px;
+  }
+  .detail-lead{
+    font-size:14px;
+    color:var(--sub);
+    line-height:1.55;
+    margin-bottom:20px;
+  }
+
+  .step-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:20px;
+  }
+  .step{
+    display:flex;
+    gap:12px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+  }
+  .step-num{
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .step-body{ font-size:14px; line-height:1.6; color:#2A2D36; padding-top:2px; }
+
+  .callout{
+    background:#FFF8ED;
+    border:1px solid #FCEAC2;
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:13px;
+    line-height:1.6;
+    color:#7A5A00;
+    margin-bottom:20px;
+  }
+  .callout b{ color:#5A4200; }
+
+  .phone-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:16px;
+  }
+  .phone-card .label{ font-size:12px; color:var(--sub); margin-bottom:4px; }
+  .phone-card .number{ font-size:18px; font-weight:800; color:var(--ink); }
+  .phone-card .hours-badge{
+    flex:0 0 auto;
+    background:#F0F3FF;
+    color:var(--blue);
+    font-size:11px;
+    font-weight:700;
+    line-height:1.4;
+    text-align:center;
+    padding:8px 12px;
+    border-radius:10px;
+    white-space:nowrap;
+  }
+
+  .hint{
+    font-size:12px;
+    color:var(--sub);
+    line-height:1.5;
+  }
+
+  /* Seasonal guide image */
+  .guide-image-wrap{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:10px;
+    margin-bottom:18px;
+  }
+  .guide-image-wrap img{
+    width:100%;
+    display:block;
+    border-radius:8px;
+  }
+  .guide-image-wrap.placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:110px;
+    background:#F6F7FB;
+    color:var(--sub);
+    font-size:12px;
+    border-style:dashed;
+  }
+
+  /* Hub LED status table */
+  .led-table{
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  .led-table table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  .led-table th{
+    background:#F6F7FB;
+    text-align:left;
+    padding:8px 10px;
+    font-weight:700;
+    color:var(--sub);
+    border-bottom:1px solid var(--line);
+  }
+  .led-table td{
+    padding:8px 10px;
+    border-bottom:1px solid var(--line);
+    color:#2A2D36;
+  }
+  .led-table tr:last-child td{ border-bottom:none; }
+  .led-dot{
+    display:inline-block;
+    width:10px; height:10px;
+    border-radius:50%;
+    margin-right:6px;
+    vertical-align:middle;
+  }
+  .led-dot.white-solid{ background:#fff; border:2px solid #B9C0CC; }
+  .led-dot.white-blink{ background:#fff; border:2px dashed #7C9CF7; }
+  .led-dot.red-blink{ background:#F04438; border:2px solid #F04438; }
+  .led-dot.off{ background:#D0D5DD; border:2px solid #D0D5DD; }
+
+  /* Hub state image row */
+  .guide-image-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .guide-image-row > div{ flex:1; min-width:0; }
+  .guide-image-row .guide-image-wrap{ margin-bottom:0; }
+  .guide-image-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .guide-image-grid .guide-image-wrap{ margin-bottom:0; }
+  .guide-image-caption{
+    font-size:11px;
+    color:var(--sub);
+    text-align:center;
+    margin-top:4px;
+  }
+
+  /* Troubleshooting case cards */
+  .case-grid{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin:14px 0;
+  }
+  .case-card{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 14px;
+    background:var(--card);
+  }
+  .case-card.highlight{
+    border-color:#F04438;
+    background:#FFF5F5;
+  }
+  .case-card .case-title{
+    font-weight:800;
+    font-size:13px;
+    margin-bottom:4px;
+    color:var(--ink);
+  }
+  .case-card .case-cause{
+    font-size:12px;
+    color:var(--sub);
+    margin-bottom:6px;
+  }
+  .case-card .case-actions{
+    font-size:12.5px;
+    line-height:1.6;
+    color:#2A2D36;
+  }
+  .case-card .case-note{
+    font-size:11px;
+    color:var(--sub);
+    margin-top:6px;
+    line-height:1.5;
+  }
+
+  /* KakaoTalk contact box */
+  .kakao-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background:#FFFBE0;
+    border:1px solid #FCE96A;
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0 4px;
+  }
+  .kakao-box .txt{
+    font-size:12.5px;
+    color:#5A4200;
+    line-height:1.5;
+  }
+  .kakao-box .qr-slot{
+    flex:0 0 auto;
+    width:60px; height:60px;
+    border-radius:8px;
+    background:#fff;
+    border:1px dashed #E5C93B;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    color:#9A8B00;
+    text-align:center;
+    overflow:hidden;
+  }
+  .kakao-box .qr-slot img{ width:100%; height:100%; object-fit:contain; }
+
+  /* Accordion (toggle) component */
+  .accordion{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .accordion-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .accordion-header{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .accordion-header .acc-num{
+    flex:0 0 auto;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .accordion-header .acc-title{ flex:1 1 auto; }
+  .accordion-header .acc-chevron{
+    flex:0 0 auto;
+    color:#C0C4CC;
+    transition:transform .2s ease;
+  }
+  .accordion-header .acc-chevron svg{ width:16px; height:16px; }
+  .accordion-item.open .acc-chevron{ transform:rotate(90deg); }
+  .accordion-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+  }
+  .accordion-item.open .accordion-body{ max-height:2000px; }
+  .accordion-body-inner{
+    padding:0 16px 16px;
+    font-size:13px;
+    line-height:1.6;
+    color:#2A2D36;
+  }
+  .accordion-body-inner p{ margin:0 0 8px; }
+  .accordion-body-inner p:last-child{ margin-bottom:0; }
+
+  /* Manual view */
+  .manual-cover{
+    background:linear-gradient(145deg,#F0F3FF 0%,#E4E9FF 100%);
+    border-radius:16px;
+    padding:24px 18px;
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .manual-cover svg{ width:46px; height:46px; color:var(--blue); margin-bottom:10px; }
+  .manual-cover .fname{ font-size:14px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+  .manual-cover .fmeta{ font-size:12px; color:var(--sub); }
+
+  .btn-primary{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    background:var(--blue);
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    text-decoration:none;
+    padding:15px 16px;
+    border-radius:12px;
+    margin-bottom:10px;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-primary:active{ background:var(--blue-dark); }
+  .btn-primary svg{ width:18px; height:18px; }
+
+  .btn-secondary{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    background:var(--card);
+    color:var(--ink);
+    border:1px solid var(--line);
+    font-size:14px;
+    font-weight:700;
+    text-decoration:none;
+    padding:14px 16px;
+    border-radius:12px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <button class="back-btn" id="backBtn" onclick="goHome()" aria-label="뒤로가기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="topbar-title" id="topbarTitle"></div>
+  </div>
+
+  <!-- HOME VIEW -->
+  <div class="view active" id="view-home">
+    <div class="hero">
+      <div class="eyebrow">캡스 스마트냉난방 고객 안내</div>
+      <h1>무엇을 도와드릴까요?</h1>
+      <p>아래 항목을 선택하시면 상황에 맞는 안내를 확인하실 수 있어요.</p>
+    </div>
+
+    <div class="menu">
+      <button class="menu-card" onclick="showView('seasonal')">
+        <div class="menu-icon icon-warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="menu-text">
+          <div class="title">간절기 냉난방 혼용사용 주의</div>
+          <div class="desc">냉방 · 난방 전환 시 꼭 확인해 주세요</div>
+        </div>
+        <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </button>
+
+      <button class="menu-card" onclick="showView('control')">
+        <div class="menu-icon icon-control">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="6" x2="13" y2="6"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="11" y1="18" x2="13" y2="18"/>
+          </svg>
+        </div>
+        <div class="menu-text">
+          <div class="title">에어컨 제어가 안되시나요?</div>
+          <div class="desc">항목을 눌러 순서대로 확인해 보세요</div>
+        </div>
+        <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </button>
+
+      <button class="menu-card" onclick="showView('manual')">
+        <div class="menu-icon icon-manual">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <div class="menu-text">
+          <div class="title">앱 매뉴얼</div>
+          <div class="desc">캡스 스마트냉난방 사용자 매뉴얼 보기</div>
+        </div>
+        <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </button>
+
+      <button class="menu-card" onclick="showView('acpower')">
+        <div class="menu-icon icon-ac">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h20"/><path d="M6 12v6M10 12v4M14 12v4M18 12v6"/><path d="M4 12V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/>
+          </svg>
+        </div>
+        <div class="menu-text">
+          <div class="title">에어컨 가동이 안돼요 / 자꾸 꺼져요</div>
+          <div class="desc">에어컨 가동·정지 관련 문제 확인 방법</div>
+        </div>
+        <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </button>
+    </div>
+
+    <div class="support-strip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>추가 문의는 고객센터 <a href="tel:0260521505">02-6052-1505</a>로 연락해 주세요.</span>
+    </div>
+  </div>
+
+  <!-- SEASONAL MODE SWITCH VIEW -->
+  <div class="view" id="view-seasonal">
+    <div class="content">
+      <div class="detail-title">간절기 냉난방 혼용사용 주의</div>
+      <div class="detail-lead">에어컨 구조상 냉방에서 난방으로(또는 반대로) 갑작스럽게 모드가 변경되면 실외기에 부하가 걸리거나 고장이 발생할 수 있습니다.</div>
+
+      <div class="callout">
+        앱에서 <b>냉방 ↔ 난방</b> 전환을 원하실 경우 아래 두 가지 방법 중 하나로 진행해 주세요.
+      </div>
+
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body"><b>냉방 중 난방으로 전환 시 (권장)</b><br>에어컨을 완전히 종료한 뒤 10분 이상 대기 후 난방으로 가동해 주세요.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><b>시간이 부족할 경우 (대체 방법)</b><br>냉방 → 송풍 모드로 잠시 가동 후 → 난방으로 변경해 주세요.</div>
+        </div>
+      </div>
+
+      <div class="guide-image-wrap">
+        <img src="seasonal-mode-switch-guide.jpg" alt="간절기 냉난방 혼용사용 주의 안내">
+      </div>
+
+      <div class="hint">※ 스스로 해결이 안 된다면 고객센터로 문의해 주세요.</div>
+    </div>
+  </div>
+
+  <!-- AC CONTROL (ACCORDION) VIEW -->
+  <div class="view" id="view-control">
+    <div class="content">
+      <div class="detail-title">에어컨 제어가 안되시나요?</div>
+      <div class="detail-lead">항목을 눌러 펼쳐보시고, 아래 순서대로 확인해 주시면 원인 파악에 도움이 됩니다.</div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="acc-num">1</div>
+            <div class="acc-title">컨트롤러 방향을 확인해주세요.</div>
+            <div class="acc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>에어컨에 설치된 컨트롤러 앞면의 검은색 부분은 제어 신호를 보내는 IR 커버입니다. 이 부분이 에어컨의 IR 수신부를 정면으로 향하도록 설치되어 있어야 정상적으로 신호가 전달됩니다.</p>
+              <p>에어컨 청소나 주변 접촉 등으로 컨트롤러의 방향이 틀어진 경우 신호가 제대로 전달되지 않을 수 있습니다. 전달드린 사진을 참고해 IR 커버와 에어컨 수신부가 서로 마주보도록 각도를 조정해주세요.</p>
+              <div class="guide-image-wrap">
+                <img src="control-guide-1.png" alt="컨트롤러 방향 확인 안내">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="acc-num">2</div>
+            <div class="acc-title">컨트롤러가 정상적으로 설치되어 있는지 확인해주세요.</div>
+            <div class="acc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>컨트롤러는 기존 리모컨처럼 에어컨에 제어 신호를 보내는 역할을 합니다.</p>
+              <p>컨트롤러가 떨어졌거나 설치 위치에서 분리·분실된 경우에는 에어컨으로 신호를 보낼 수 없습니다. 에어컨 주변에 컨트롤러가 정상적으로 설치되어 있는지 확인해주세요.</p>
+              <div class="guide-image-wrap">
+                <img src="control-guide-2.png" alt="컨트롤러 정상 설치 확인 안내">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="acc-num">3</div>
+            <div class="acc-title">기존 리모컨 또는 중앙제어 패널의 설정을 확인해주세요.</div>
+            <div class="acc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>기존 리모컨이나 중앙제어 패널에 조작 잠금, 무선신호 제한, 연동운전 등 특정 설정이 적용되어 있는 경우 스마트냉난방 제어가 정상적으로 동작하지 않을 수 있습니다.</p>
+              <p>리모컨이나 중앙제어 패널에 평소와 다른 설정이 적용되어 있거나 설정 해제가 어려운 경우에는 삼성, LG 등 해당 에어컨 제조사 고객센터를 통해 설정 상태를 확인하고 필요한 설정을 해제해주세요.</p>
+              <div class="guide-image-wrap">
+                <img src="control-guide-3.png" alt="리모컨·중앙제어 패널 설정 확인 안내">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="acc-num">4</div>
+            <div class="acc-title">에어컨 자체의 이상 여부를 확인해주세요.</div>
+            <div class="acc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>스마트냉난방 시스템은 기존 에어컨 설비를 변경하는 방식이 아니라, 에어컨에 제어 신호를 전달해 동작시키는 방식입니다. 따라서 에어컨 또는 실외기 자체에 문제가 있는 경우 스마트냉난방 앱에서도 제어가 되지 않을 수 있습니다.</p>
+              <p>스마트냉난방 앱이 아닌 기존 리모컨 또는 중앙제어 패널로 직접 에어컨을 가동해보세요. 기존 방식으로도 에어컨이 작동하지 않는다면 에어컨 자체 점검이 필요할 수 있으므로 삼성, LG 등 해당 에어컨 제조사 고객센터를 통해 점검을 받아주세요.</p>
+              <div class="guide-image-wrap">
+                <img src="control-guide-4.png" alt="에어컨 자체 이상 여부 확인 안내">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="acc-num">5</div>
+            <div class="acc-title">연결이 끊겼어요.</div>
+            <div class="acc-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>앱 목록에 아래처럼 <b>'연결끊김'</b>으로 표시된다면, 먼저 <b>허브의 LED 점등 상태</b>를 확인해 주세요.</p>
+              <div class="guide-image-wrap">
+                <img src="control-guide-5.png" alt="앱에서 연결끊김으로 표시된 화면 예시">
+              </div>
+
+              <div class="led-table">
+                <table>
+                  <thead>
+                    <tr><th>상태</th><th>설명</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><span class="led-dot white-solid"></span>흰색(푸른빛) 점등</td><td>정상 연결</td></tr>
+                    <tr><td><span class="led-dot white-blink"></span>흰색(푸른빛) 불 점멸</td><td>WiFi 연결 문제</td></tr>
+                    <tr><td><span class="led-dot red-blink"></span>빨간색 불 점멸</td><td>기기 연결 끊김</td></tr>
+                    <tr><td><span class="led-dot off"></span>조명 없음</td><td>허브 아답터 전원 없음</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="guide-image-grid">
+                <div>
+                  <div class="guide-image-wrap">
+                    <img src="led-white-solid.png" alt="흰색(푸른빛) 점등 - 정상 연결">
+                  </div>
+                  <div class="guide-image-caption">흰색 점등 (정상 연결)</div>
+                </div>
+                <div>
+                  <div class="guide-image-wrap">
+                    <img src="led-white-blink.gif" alt="흰색(푸른빛) 불 점멸 - WiFi 연결 문제">
+                  </div>
+                  <div class="guide-image-caption">흰색 점멸 (WiFi 문제)</div>
+                </div>
+                <div>
+                  <div class="guide-image-wrap">
+                    <img src="led-red-blink.gif" alt="빨간색 불 점멸 - 기기 연결 끊김">
+                  </div>
+                  <div class="guide-image-caption">빨간색 점멸 (연결 끊김)</div>
+                </div>
+                <div>
+                  <div class="guide-image-wrap">
+                    <img src="led-power-off.png" alt="조명 없음 - 허브 아답터 전원 없음">
+                  </div>
+                  <div class="guide-image-caption">조명 없음 (전원 없음)</div>
+                </div>
+              </div>
+
+              <p><b>간단한 문제, 스스로 해결해보세요.</b></p>
+
+              <div class="case-grid">
+                <div class="case-card">
+                  <div class="case-title">흰색 불 점멸 — WiFi 문제</div>
+                  <div class="case-actions">
+                    허브 전원선을 뽑아 10초 후 다시 연결합니다.<br>
+                    공유기의 전원과 연결선을 모두 분리한 후 10초 후 다시 연결합니다.
+                  </div>
+                  <div class="case-note">
+                    ※ 조치 전 두 선이 아닌 다른 선이 연결되어 있지 않은지 꼭 확인합니다. (재부팅이 되며 연결된 기기들의 통신이 정지됩니다.) 사진과 같이 검은색 전원선과 흰색 랜선을 모두 분리한 후 10초 후 다시 꽂아주시면 됩니다.
+                  </div>
+                  <div class="guide-image-wrap" style="margin-top:8px;margin-bottom:0;">
+                    <img src="router-cable-guide.jpg" alt="공유기 전원선·랜선 분리 위치 예시">
+                  </div>
+                </div>
+
+                <div class="case-card highlight">
+                  <div class="case-title">빨간색 불 점멸 — 컨트롤러 or 센서 문제</div>
+                  <div class="case-actions">
+                    기기 연결 여부를 확인합니다.<br>
+                    배터리를 새것으로 교체합니다.
+                  </div>
+                </div>
+
+                <div class="case-card">
+                  <div class="case-title">조명 없음 — 전원 없음</div>
+                  <div class="case-actions">
+                    아답터 전원이 빠졌는지 확인 후, 다시 연결합니다.
+                  </div>
+                </div>
+              </div>
+
+              <div class="kakao-box">
+                <div class="txt">아래 조치로도 문제가 해결되지 않을 경우<br>고객센터 카카오톡 채널로 문의해주세요.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div>
+          <div class="label">고객센터</div>
+          <div class="number">02-6052-1505</div>
+        </div>
+        <div class="hours-badge">평일 업무시간에만<br>응대 가능</div>
+      </div>
+
+      <div class="hint">※ 연결 끊김 상태는 앱 하단 알림 또는 냉난방기 목록에서 '연결끊김' 표시로 확인하실 수 있으며, 통신 상태에 따라 일시적으로 발생할 수 있습니다.</div>
+    </div>
+  </div>
+
+  <!-- AC POWER ISSUE VIEW -->
+  <div class="view" id="view-acpower">
+    <div class="content">
+      <div class="detail-title">에어컨 가동이 안돼요 / 자꾸 꺼져요</div>
+      <div class="detail-lead">아래 순서대로 확인해 주시면 원인 파악에 도움이 됩니다.</div>
+
+      <div class="step-list">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">앱에서 에어컨을 <b>OFF 상태</b>로 만듭니다.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><b>리모컨 또는 벽면 패널</b>로 직접 제어했을 때 가동 여부를 확인해 주세요.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">리모컨·패널로도 <b>동일하게 제어가 되지 않을 경우</b> 에어컨 자체 문제일 수 있으니 제조사에 점검을 접수해 주세요.</div>
+        </div>
+      </div>
+
+      <div class="hint">※ 리모컨/패널 제어는 정상인데 앱 제어만 안 되는 경우에는 연결 상태를 확인해 주세요.</div>
+    </div>
+  </div>
+
+  <!-- MANUAL VIEW -->
+  <div class="view" id="view-manual">
+    <div class="content">
+      <div class="detail-title">앱 매뉴얼</div>
+      <div class="detail-lead">캡스 스마트냉난방 앱의 전체 기능과 사용 방법을 담은 사용자 매뉴얼입니다.</div>
+
+      <div class="manual-cover">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div class="fname">캡스 스마트냉난방 사용자 매뉴얼</div>
+        <div class="fmeta">최종 업데이트 2025.05.16</div>
+      </div>
+
+      <a class="btn-primary" href="caps-app-manual.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        매뉴얼 열어보기
+      </a>
+      <a class="btn-secondary" href="caps-app-manual.pdf" download>
+        기기에 저장하기
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const titles = {
+    home: '',
+    seasonal: '간절기 냉난방 혼용사용 주의',
+    control: '에어컨 제어 문제',
+    acpower: '에어컨 가동 문제',
+    manual: '앱 매뉴얼'
+  };
+
+  function toggleAccordion(headerEl){
+    const item = headerEl.closest('.accordion-item');
+    item.classList.toggle('open');
+  }
+
+  function showView(name){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.getElementById('topbarTitle').textContent = titles[name] || '';
+    document.getElementById('backBtn').style.display = name === 'home' ? 'none' : 'flex';
+    window.scrollTo(0,0);
+    history.pushState({view:name}, '', '#' + name);
+  }
+
+  function goHome(){ showView('home'); }
+
+  window.addEventListener('popstate', (e)=>{
+    const v = (e.state && e.state.view) || 'home';
+    showView(v);
+  });
+
+  // deep link support (#disconnect, #manual, #acpower)
+  (function initFromHash(){
+    const h = location.hash.replace('#','');
+    if (h && titles.hasOwnProperty(h) && h !== 'home') {
+      showView(h);
+    }
+  })();
+</script>
+</body>
+</html>
