@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0",
+  "updatedAt": "2026-09-22",
+  "owner": "운영팀",
+  "entrypoints": [
+    {
+      "file": "leaf-customer-guide.html",
+      "product": "리프",
+      "title": "리프 종합 고객 안내",
+      "description": "냉난방 전환, 제어 문제, 계정, 스마트예약 및 앱 매뉴얼 안내"
+    },
+    {
+      "file": "caps-customer-guide.html",
+      "product": "캡스",
+      "title": "캡스 종합 고객 안내",
+      "description": "냉난방 전환, 제어 문제, 휴무일, 스케줄 및 앱 매뉴얼 안내"
+    },
+    {
+      "file": "holiday-setting-guide.html",
+      "product": "리프",
+      "title": "리프 휴일 설정 안내",
+      "description": "스마트예약 휴일 지정 및 해제 방법"
+    },
+    {
+      "file": "smart-reservation-add-schedule-guide.html",
+      "product": "리프",
+      "title": "리프 스마트예약 추가 안내",
+      "description": "스마트예약 신규 생성 방법"
+    },
+    {
+      "file": "smart-reservation-edit-schedule-guide.html",
+      "product": "리프",
+      "title": "리프 스마트예약 수정 안내",
+      "description": "등록된 스마트예약 수정 방법"
+    },
+    {
+      "file": "smart-reservation-duplicate-check-guide.html",
+      "product": "리프",
+      "title": "리프 스마트예약 중복 확인 안내",
+      "description": "스마트예약 시간 및 에어컨 중복 확인 방법"
+    }
+  ]
+}
