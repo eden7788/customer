@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "1.0.0",
-  "updatedAt": "2026-09-22",
+  "contentVersion": "1.1.1",
+  "updatedAt": "2026-10-20",
   "owner": "운영팀",
   "entrypoints": [
     {
       "file": "leaf-customer-guide.html",
       "product": "리프",
       "title": "리프 종합 고객 안내",
-      "description": "냉난방 전환, 제어 문제, 계정, 스마트예약 및 앱 매뉴얼 안내"
+      "description": "냉난방 전환, 제어 문제, 계정, 스마트예약, 와이파이 변경 및 앱 매뉴얼 안내"
     },
     {
       "file": "caps-customer-guide.html",
@@ -39,6 +39,12 @@
       "product": "리프",
       "title": "리프 스마트예약 중복 확인 안내",
       "description": "스마트예약 시간 및 에어컨 중복 확인 방법"
+    },
+    {
+      "file": "contract-procedure-guide.html",
+      "product": "리프",
+      "title": "계약 절차 설명",
+      "description": "계약 절차 설명"
     }
   ]
 }

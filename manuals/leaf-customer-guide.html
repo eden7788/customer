@@ -130,6 +130,8 @@
   .icon-account svg{ color:var(--blue); }
   .icon-manual{ background:#ECFDF3; }
   .icon-manual svg{ color:#12B76A; }
+  .icon-wifi{ background:#E0F7FA; }
+  .icon-wifi svg{ color:#0E7490; }
   .icon-ac{ background:#EAF6FF; }
   .icon-ac svg{ color:#0B96D0; }
   .icon-holiday{ background:#FFF0F6; }
@@ -698,6 +700,19 @@
         <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
       </button>
 
+      <button class="menu-card" onclick="showView('wifi')">
+        <div class="menu-icon icon-wifi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+        </div>
+        <div class="menu-text">
+          <div class="title">와이파이 변경 방법</div>
+          <div class="desc">휴대폰 운영체제별 와이파이 변경 방법 안내</div>
+        </div>
+        <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </button>
+
       <button class="menu-card" onclick="showView('holiday')">
         <div class="menu-icon icon-holiday">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1231,6 +1246,41 @@
     </div>
   </div>
 
+  <!-- WIFI CHANGE VIEW -->
+  <div class="view" id="view-wifi">
+    <div class="content">
+      <div class="detail-title">와이파이 변경 방법</div>
+      <div class="detail-lead">휴대폰 운영체제를 선택하시면 와이파이 변경 방법을 안내드립니다.</div>
+
+      <div class="tabs2">
+        <button class="tab2 on" onclick="showInviteTab(this,'wifi-android')">Android</button>
+        <button class="tab2" onclick="showInviteTab(this,'wifi-ios')">iOS</button>
+      </div>
+
+      <div class="pane2 on" id="wifi-android">
+        <div class="guide-image-wrap placeholder">영상 자리 (준비 중)</div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">상세 안내를 준비 중입니다.</div>
+          </div>
+        </div>
+        <div class="hint">※ Android용 와이파이 변경 안내는 준비 중이며, 빠른 시일 내 업데이트할 예정입니다.</div>
+      </div>
+
+      <div class="pane2" id="wifi-ios">
+        <div class="guide-image-wrap placeholder">영상 자리 (준비 중)</div>
+        <div class="step-list">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">상세 안내를 준비 중입니다.</div>
+          </div>
+        </div>
+        <div class="hint">※ iOS용 와이파이 변경 안내는 준비 중이며, 빠른 시일 내 업데이트할 예정입니다.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- MANUAL VIEW -->
   <div class="view" id="view-manual">
     <div class="content">
@@ -1265,6 +1315,7 @@
     account: '계정 찾기',
     acpower: '에어컨 가동 문제',
     manual: '앱 매뉴얼',
+    wifi: '와이파이 변경 방법',
     holiday: '휴무일 설정하기',
     schedule: '스마트예약 일정 설정하기'
   };
