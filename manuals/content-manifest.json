@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "1.1.1",
+  "contentVersion": "1.2.0",
   "updatedAt": "2026-10-20",
   "owner": "운영팀",
   "entrypoints": [
@@ -39,6 +39,12 @@
       "product": "리프",
       "title": "리프 스마트예약 중복 확인 안내",
       "description": "스마트예약 시간 및 에어컨 중복 확인 방법"
+    },
+    {
+      "file": "wifi-reset-guide.html",
+      "product": "리프",
+      "title": "리프 Wi-Fi 재설정 안내",
+      "description": "허브 Wi-Fi 정보 재설정 방법 (Android · iOS)"
     },
     {
       "file": "contract-procedure-guide.html",
