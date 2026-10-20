@@ -21,7 +21,11 @@
   .stage{display:none;grid-template-columns:1fr;justify-items:center;gap:24px;align-items:center;min-height:auto;background:#fff;border:1px solid #edf0f7;border-radius:30px;padding:28px 20px 32px;box-shadow:0 24px 70px rgba(43,55,101,.11);overflow:hidden}
   .stage.active{display:grid}
 
-  .phone{position:relative;width:300px;margin:auto;background:#111;border:9px solid #181a20;border-radius:44px;box-shadow:0 24px 45px rgba(31,36,57,.2);overflow:hidden}
+  .phone-row{display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+  .nav{flex:0 0 auto;width:38px;height:38px;padding:0;border:1px solid #dfe3ee;background:#fff;color:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(43,55,101,.1)}
+  .nav.next{background:var(--blue);border-color:var(--blue);color:#fff}
+  .nav svg{width:20px;height:20px}
+  .phone{position:relative;flex:0 1 270px;min-width:0;margin:0;background:#111;border:9px solid #181a20;border-radius:44px;box-shadow:0 24px 45px rgba(31,36,57,.2);overflow:hidden}
   .phone-inner{position:relative;width:100%;overflow:hidden;background:#fff}
   .speaker{position:absolute;z-index:6;top:8px;left:50%;width:70px;height:16px;transform:translateX(-50%);border-radius:0 0 12px 12px;background:#181a20}
 
@@ -36,27 +40,36 @@
   .tap.show .ring{opacity:.55;transform:scale(2.1)}
   .tap.show .dot{opacity:1;transform:scale(1)}
 
-  .copy{max-width:470px}
+  .copy{width:100%;max-width:470px}
+  .copy-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .step-count{display:inline-flex;padding:8px 12px;border-radius:20px;background:#edf0ff;color:var(--blue);font-size:13px;font-weight:900}
   .copy h2{font-size:30px;letter-spacing:-.04em;margin:16px 0 13px}
   .copy p{font-size:17px;line-height:1.7;color:#4e5565;margin:0;min-height:84px}
+  .tip:empty{display:none}
   .tip{margin-top:20px;padding:15px 17px;background:#f7f8fc;border-radius:13px;color:#596071;font-size:14px;line-height:1.55;min-height:24px}
   .controls{display:flex;align-items:center;gap:11px;margin-top:26px;flex-wrap:wrap}
   .control{border:1px solid #dfe3ee;background:#fff;border-radius:13px;padding:12px 18px;font-weight:800}
   .control.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
   .control:hover{transform:translateY(-1px)}
-  .progress{display:flex;gap:6px;margin-left:5px;flex-wrap:wrap;max-width:140px}
+  .control.small{padding:7px 12px;font-size:13px}
+  .progress{display:flex;gap:6px;margin-top:18px;flex-wrap:wrap}
   .dot2{width:8px;height:8px;border-radius:9px;background:#d9dce7;transition:.3s}
   .dot2.on{width:22px;background:var(--blue)}
 
   @media(max-width:820px){
     .guide{padding:22px 15px}
     .stage{grid-template-columns:1fr;gap:24px;padding:22px 15px;min-height:auto}
-    .phone{width:270px}
     .copy{padding:0 8px}
     .copy h2{font-size:25px}
     .copy p{font-size:15.5px;min-height:76px}
     .intro{font-size:15px}
+  }
+  @media(max-width:480px){
+    .guide{padding:22px 10px}
+    .stage{padding:20px 6px}
+    .phone-row{gap:6px}
+    .nav{width:34px;height:34px}
+    .phone{border-width:7px;border-radius:34px}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -74,7 +87,9 @@
 
   <!-- ANDROID STAGE -->
   <section class="stage active" id="stageAndroid" aria-label="안드로이드 Wi-Fi 재설정 애니메이션">
-    <div class="phone">
+    <div class="phone-row">
+      <button class="nav prev" id="prevAndroid" type="button" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="phone">
       <div class="phone-inner" id="innerAndroid" style="aspect-ratio:640/1353">
         <div class="speaker"></div>
         <div class="shot" data-shot="a1"><img src="assets/wifi-android-1.jpg" alt=""></div>
@@ -92,23 +107,25 @@
         <div class="tap" id="tapAndroid"></div>
       </div>
     </div>
+      <button class="nav next" id="nextAndroid" type="button" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
     <div class="copy" aria-live="polite">
-      <span class="step-count" id="countAndroid">1 / 10</span>
+      <div class="copy-head">
+        <span class="step-count" id="countAndroid">1 / 11</span>
+        <button class="control small" id="playAndroid" type="button" aria-pressed="true">일시정지</button>
+      </div>
       <h2 id="titleAndroid"></h2>
       <p id="textAndroid"></p>
       <div class="tip" id="tipAndroid"></div>
-      <div class="controls">
-        <button class="control" id="prevAndroid" type="button">이전</button>
-        <button class="control primary" id="nextAndroid" type="button">다음</button>
-        <button class="control" id="playAndroid" type="button" aria-pressed="true">일시정지</button>
-        <div class="progress" id="progressAndroid" aria-hidden="true"></div>
-      </div>
+      <div class="progress" id="progressAndroid" aria-hidden="true"></div>
     </div>
   </section>
 
   <!-- IOS STAGE -->
   <section class="stage" id="stageIOS" aria-label="아이폰 Wi-Fi 재설정 애니메이션">
-    <div class="phone">
+    <div class="phone-row">
+      <button class="nav prev" id="prevIOS" type="button" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="phone">
       <div class="phone-inner" id="innerIOS" style="aspect-ratio:640/1312">
         <div class="speaker"></div>
         <div class="shot" data-shot="i1"><img src="assets/wifi-ios-1.jpg" alt=""></div>
@@ -126,17 +143,17 @@
         <div class="tap" id="tapIOS"></div>
       </div>
     </div>
+      <button class="nav next" id="nextIOS" type="button" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
     <div class="copy" aria-live="polite">
-      <span class="step-count" id="countIOS">1 / 11</span>
+      <div class="copy-head">
+        <span class="step-count" id="countIOS">1 / 11</span>
+        <button class="control small" id="playIOS" type="button" aria-pressed="true">일시정지</button>
+      </div>
       <h2 id="titleIOS"></h2>
       <p id="textIOS"></p>
       <div class="tip" id="tipIOS"></div>
-      <div class="controls">
-        <button class="control" id="prevIOS" type="button">이전</button>
-        <button class="control primary" id="nextIOS" type="button">다음</button>
-        <button class="control" id="playIOS" type="button" aria-pressed="true">일시정지</button>
-        <div class="progress" id="progressIOS" aria-hidden="true"></div>
-      </div>
+      <div class="progress" id="progressIOS" aria-hidden="true"></div>
     </div>
   </section>
 </main>
