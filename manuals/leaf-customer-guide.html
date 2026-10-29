@@ -1344,13 +1344,16 @@
     showView(v, false);
   });
 
+  // Read the deep-link hash first — the replaceState below drops it from the URL.
+  const initialView = location.hash.replace('#','');
+
   // Register an explicit 'home' entry so the very first back-press
   // from a level-1 view returns to the home screen instead of leaving the page.
   history.replaceState({view:'home'}, '', location.pathname + location.search);
 
   // deep link support (#seasonal, #control, #account, #acpower, #manual, ...)
   (function initFromHash(){
-    const h = location.hash.replace('#','');
+    const h = initialView;
     if (h && titles.hasOwnProperty(h) && h !== 'home') {
       showView(h);
     }
