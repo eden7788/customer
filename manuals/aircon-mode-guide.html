@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>에어컨 냉방·난방 설정 가이드 (삼성·LG)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14202e; --muted:#5b6776; --line:#dfe4ea; --bg:#f4f6f9; --card:#ffffff;
+  --accent:#1f5bd8; --accent-soft:#e8f0fe; --ok:#1a8f5a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+[hidden]{display:none !important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 16px 48px}
+.eyebrow{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+h1{margin:6px 0 8px;font-size:clamp(24px,4.6vw,34px);line-height:1.25;letter-spacing:-.01em}
+.lead{margin:0 0 20px;color:var(--muted);font-size:15.5px;max-width:680px}
+button:focus-visible{outline:3px solid #9bbcff;outline-offset:2px}
+
+/* manufacturer picker */
+.picks{display:grid;grid-template-columns:1fr;gap:14px;max-width:1000px;margin-top:8px}
+@media(min-width:760px){.picks{grid-template-columns:1fr 1fr 1fr}}
+.pick{appearance:none;font:inherit;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:22px 22px 20px;cursor:pointer;color:var(--ink);transition:border-color .15s,box-shadow .15s,transform .15s}
+.pick:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(31,91,216,.12);transform:translateY(-1px)}
+.pick .nm{display:block;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.pick .ds{display:block;margin-top:6px;font-size:14px;color:var(--muted)}
+.pick .go{display:block;margin-top:14px;font-size:14px;font-weight:700;color:var(--accent)}
+.hint{margin-top:18px;font-size:13.5px;color:var(--muted);max-width:680px}
+
+/* guide */
+.back{appearance:none;border:0;background:transparent;font:inherit;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;padding:6px 8px 6px 0;margin-bottom:6px}
+.back:hover{color:var(--accent)}
+.tabs{display:inline-flex;gap:4px;padding:4px;background:#e7ebf1;border-radius:12px;margin-bottom:18px;max-width:100%;flex-wrap:wrap}
+.tabs button{appearance:none;border:0;background:transparent;font:inherit;font-weight:500;font-size:14.5px;color:var(--muted);padding:9px 16px;border-radius:9px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(20,32,46,.12)}
+@media(max-width:600px){
+  .stage,.stage.dark{padding:4px}
+  .card{padding:10px}
+  .tabs{display:flex;width:100%;flex-wrap:nowrap}
+  .tabs button{flex:1;padding:9px 6px;font-size:13px;line-height:1.3}
+}
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:880px){.grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stage{border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--line);padding:6px}
+.stage.dark{background:#222831;border-color:#222831;padding:10px}
+.stage svg{display:block;width:100%;height:auto}
+.stage svg text{font-family:'Noto Sans KR',system-ui,sans-serif}
+.chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.chips .lbl{font-size:13.5px;color:var(--muted);margin-right:2px}
+.chip{appearance:none;font:inherit;font-size:13.5px;font-weight:500;border:1px solid var(--line);background:#fff;color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.ctrl{display:flex;align-items:center;gap:8px;margin-top:12px}
+.ctrl button{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:500;min-width:44px;height:40px;border-radius:10px;cursor:pointer;padding:0 12px}
+.ctrl button.primary{background:var(--accent);border-color:var(--accent);color:#fff;min-width:84px}
+.ctrl .count{margin-left:auto;font-size:13px;color:var(--muted)}
+.bar{height:4px;background:#e7ebf1;border-radius:4px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.step>button{all:unset;box-sizing:border-box;width:100%;display:flex;gap:12px;padding:12px;border-radius:12px;cursor:pointer;border:1px solid transparent}
+.step>button:hover{background:#f6f8fb}
+.step>button:focus-visible{outline:3px solid #9bbcff;outline-offset:2px}
+.step .n{flex:none;width:28px;height:28px;border-radius:50%;background:#e7ebf1;color:var(--muted);font-weight:700;font-size:14px;display:grid;place-items:center}
+.step .b{display:block;min-width:0}
+.step strong{display:block;font-size:15.5px;font-weight:700}
+.step .d{display:block;max-height:0;overflow:hidden;opacity:0;color:var(--muted);font-size:14.5px;transition:max-height .35s,opacity .35s,margin .35s}
+.step .d b{color:var(--ink)}
+.step.on>button{background:var(--accent-soft);border-color:#c9dafc}
+.step.on .n{background:var(--accent);color:#fff}
+.step.on .d{max-height:260px;opacity:1;margin-top:4px}
+.step.done .n{background:var(--ok);color:#fff}
+.note{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.note+.note{margin-top:12px}
+.note h2{margin:0 0 8px;font-size:15.5px}
+.note ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.note p{margin:0;color:var(--muted);font-size:14.5px}
+.note li+li{margin-top:4px}
+.foot{margin:14px 2px 0;font-size:12.5px;color:var(--muted)}
+.foot a{color:var(--accent)}
+.hlbox{fill:rgba(31,91,216,.10);stroke:#1f5bd8;stroke-width:3;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{stroke-opacity:1}50%{stroke-opacity:.25}}
+.blink{animation:blink 1.4s steps(1,end) infinite}
+@keyframes blink{0%,72%{opacity:1}73%,100%{opacity:0}}
+.fing{opacity:0;transition:opacity .3s}
+.fing .halo{fill:rgba(255,120,30,.22);stroke:#ff7a1e;stroke-width:2.5}
+.fing .dot{fill:#ff7a1e}
+.fing .rip{fill:none;stroke:#ff7a1e;stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
+.fing.press .rip{animation:rip .6s ease-out}
+@keyframes rip{from{transform:scale(.5);opacity:.9}to{transform:scale(2.6);opacity:0}}
+.holdfill{transform-box:fill-box;transform-origin:left center;animation:hold 2s linear forwards}
+@keyframes hold{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.hlbox,.blink{animation:none}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <!-- 1) 제조사 선택 -->
+  <section id="picker" aria-label="제조사 선택">
+    <div class="eyebrow">에어컨 설정 가이드</div>
+    <h1>냉방·난방이 켜지지 않을 때</h1>
+    <p class="lead">계절이 바뀌었는데 냉방(또는 난방)이 선택되지 않나요? 먼저 사용하시는 에어컨의 <b>제조사</b>를 선택해 주세요. 제조사에 맞는 해결 방법을 화면 시연으로 보여드려요.</p>
+    <div class="picks">
+      <button type="button" class="pick" data-brand="samsung">
+        <span class="nm">삼성전자</span>
+        <span class="ds">터치식 중앙제어기 · ON/OFF 중앙제어기<br>냉방전용 / 난방전용 설정 풀기</span>
+        <span class="go">가이드 보기 →</span>
+      </button>
+      <button type="button" class="pick" data-brand="lg">
+        <span class="nm">LG전자</span>
+        <span class="ds">유선 리모컨 · 중앙제어 [HL] 표시<br>냉방·난방이 선택되지 않을 때</span>
+        <span class="go">가이드 보기 →</span>
+      </button>
+      <button type="button" class="pick" data-brand="carrier">
+        <span class="nm">캐리어</span>
+        <span class="ds">무선 리모컨<br>리모컨 잠금(자물쇠·열쇠 표시) 해제</span>
+        <span class="go">가이드 보기 →</span>
+      </button>
+    </div>
+    <p class="hint">제조사는 실내기·리모컨·제어기에 적힌 로고로 확인할 수 있어요.</p>
+  </section>
+
+  <!-- 2) 제조사별 가이드 -->
+  <section id="guide" hidden>
+    <button type="button" class="back" id="back">← 제조사 다시 선택</button>
+    <div class="eyebrow" id="g-eyebrow"></div>
+    <h1 id="g-title"></h1>
+    <p class="lead" id="g-lead"></p>
+
+    <div class="tabs" role="tablist" aria-label="상황 선택" id="tabs"></div>
+
+    <div class="grid">
+      <section class="card" aria-label="화면 시연">
+        <div class="chips" id="chips"></div>
+        <div class="stage" id="stage">
+          <svg id="screen" viewBox="0 0 640 370" role="img" aria-label="화면 시연 애니메이션">
+            <defs>
+              <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd14f"/><stop offset="1" stop-color="#5fa82a"/></linearGradient>
+              <linearGradient id="gPanel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6e9ec"/><stop offset="1" stop-color="#d2d7dc"/></linearGradient>
+              <linearGradient id="gEdge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4f4f5"/><stop offset="1" stop-color="#c9cacd"/></linearGradient>
+              <pattern id="stripe" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#d9d9dc"/><rect width="2" height="4" fill="#4a4a4d"/></pattern>
+              <clipPath id="zoomClip"><circle cx="455" cy="185" r="150"/></clipPath>
+            </defs>
+            <g id="scene"></g>
+            <g id="hl"></g>
+            <g id="finger" class="fing" style="transform:translate(660px,390px)">
+              <circle class="rip" r="16"/>
+              <circle class="halo" r="16"/>
+              <circle class="dot" r="5"/>
+            </g>
+            <g id="finger2" class="fing" style="transform:translate(660px,390px)">
+              <circle class="rip" r="16"/>
+              <circle class="halo" r="16"/>
+              <circle class="dot" r="5"/>
+            </g>
+          </svg>
+        </div>
+        <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+        <div class="ctrl">
+          <button id="prev" aria-label="이전 단계">◀ 이전</button>
+          <button id="play" class="primary" aria-label="일시정지">일시정지</button>
+          <button id="next" aria-label="다음 단계">다음 ▶</button>
+          <span class="count" id="count"></span>
+        </div>
+      </section>
+
+      <section aria-label="단계별 설명">
+        <ol class="steps" id="steps"></ol>
+      </section>
+    </div>
+
+    <div id="notes"></div>
+    <p class="foot" id="foot"></p>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  if (window.parent === window) return;
+  var wrap = document.querySelector('.wrap');
+  function post(msg){ try { window.parent.postMessage(msg, '*'); } catch(e) {} }
+  function sendHeight(){ post({type:'guide-height', height: Math.ceil(wrap.getBoundingClientRect().height)}); }
+  window.notifyParentTop = function(){ post({type:'guide-top'}); };
+  if (window.ResizeObserver) new ResizeObserver(sendHeight).observe(wrap);
+  window.addEventListener('load', sendHeight);
+  sendHeight();
+})();
+</script>
+
+<script>
+(function(){
+  var $ = function(s){return document.querySelector(s)};
+
+  /* ---------- SVG helpers ---------- */
+  function rect(x,y,w,h,fill,stroke,r,sw){
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(r==null?4:r)+'" fill="'+fill+'" stroke="'+(stroke||'none')+'" stroke-width="'+(sw||1)+'"/>';
+  }
+  function txt(x,y,s,size,fill,anchor,weight,extra){
+    return '<text x="'+x+'" y="'+y+'" font-size="'+(size||12)+'" fill="'+(fill||'#333')+'" text-anchor="'+(anchor||'middle')+'" font-weight="'+(weight||400)+'" dominant-baseline="central" '+(extra||'')+'>'+s+'</text>';
+  }
+
+  /* =============== SAMSUNG scenes =============== */
+function btn(x,y,w,h,s,size,disabled){
+    return rect(x,y,w,h,disabled?'#e3e5e7':'#fff','#b8bdc3',3)+txt(x+w/2,y+h/2,s,size||12,disabled?'#9aa1a8':'#444');
+  }
+  function toggleOff(x,y,w,h){
+    return rect(x,y,w,h,'#f4f4f5','#b8bdc3',3)+rect(x+2,y+2,w*0.5,h-4,'#fff','#c9cdd2',2)+txt(x+w*0.28,y+h/2,'OFF',11,'#999','middle',700);
+  }
+  function topbar(title,right){
+    return rect(0,0,640,30,'#4b5764','none',0)+txt(320,15,title,14,'#fff')+(right?txt(630,15,right,12,'#fff','end'):'');
+  }
+
+  /* ---------- touch controller scenes ---------- */
+  var MODELBL={cool:'냉방전용',heat:'난방전용',none:'설정없음'};
+
+  function sceneHome(p){
+    var s=rect(0,0,640,370,'#eceef0','none',0);
+    s+=txt(630,20,'◷ 오전 09:47',12,'#333','end');
+    s+=txt(320,92,'SAMSUNG',26,'#1428a0','middle',700,'letter-spacing="3"');
+    s+=txt(320,124,'터치 중앙제어기',14,'#666');
+    var xs=[131,266,401], navy='#2e4a7d', cy=205, i, cx;
+    for(i=0;i<3;i++){ s+=rect(xs[i],161,108,108,'#f7f7f8','#c9cdd2',8,1.5); }
+    // icon 1: monitor + hand
+    cx=xs[0]+54;
+    s+=rect(cx-18,cy-18,36,28,navy,'none',3)+rect(cx-14,cy-14,28,20,'#8fa6cf','none',2);
+    s+='<path d="M'+(cx+3)+' '+(cy-2)+' l0 20 l5 -4 l4 9 l4 -2 l-4 -9 l7 0 z" fill="#fff" stroke="'+navy+'" stroke-width="2" stroke-linejoin="round"/>';
+    s+=txt(cx,243,'제어 및',13,'#333')+txt(cx,259,'모니터링',13,'#333');
+    // icon 2: schedule
+    cx=xs[1]+54;
+    s+=rect(cx-19,cy-18,36,32,'#fff',navy,3,2)+rect(cx-19,cy-18,36,8,navy,'none',2);
+    s+='<path d="M'+(cx-19)+' '+(cy-2)+' h36 M'+(cx-19)+' '+(cy+6)+' h36 M'+(cx-7)+' '+(cy-10)+' v24 M'+(cx+5)+' '+(cy-10)+' v24" stroke="'+navy+'" stroke-width="1.2" fill="none"/>';
+    s+='<circle cx="'+(cx+10)+'" cy="'+(cy+12)+'" r="9" fill="#fff" stroke="'+navy+'" stroke-width="2"/><path d="M'+(cx+10)+' '+(cy+7)+' v5 h4" stroke="'+navy+'" stroke-width="1.6" fill="none"/>';
+    s+=txt(cx,251,'스케줄',13,'#333');
+    // icon 3: gear
+    cx=xs[2]+54;
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="15" fill="none" stroke="'+navy+'" stroke-width="9" stroke-dasharray="7.2 7.2"/><circle cx="'+cx+'" cy="'+cy+'" r="12" fill="'+navy+'"/><circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#f7f7f8"/>';
+    s+=txt(cx,251,'설정',13,'#333');
+    if(p.toast){ s+=rect(190,306,260,38,'#1a8f5a','none',19)+txt(320,325,'설정이 완료됐어요 ✓',15,'#fff','middle',700); }
+    return {svg:s,t:p.toast?{ctl:[131,161,108,108],toast:[190,306,260,38]}:{ctl:[131,161,108,108]}};
+  }
+
+  function sceneZone(p){
+    var sel=p.sel||[], s=rect(0,0,640,370,'#eceef0','none',0)+topbar('제어 및 모니터링','◷ 오전 09:49');
+    s+='<path d="M10 20 l8 -8 l8 8 v8 h-16z" fill="none" stroke="#fff" stroke-width="1.6"/>';
+    s+=txt(320,50,'Zone Name#1',13,'#333','middle',700);
+    var t={}, i, x, on;
+    for(i=0;i<4;i++){
+      x=8+i*155; on=sel.indexOf(i)>=0;
+      s+=rect(x,62,152,56,on?'#8bbbe6':'#bcd6ec',on?'#1f5bd8':'#9fc1de',3,on?2.5:1);
+      s+=txt(x+6,74,'32:00:0'+i,10,'#4a5a6a','start');
+      s+=rect(x+10,88,26,18,'none','#5a6b7c',2,1.4)+'<path d="M'+(x+14)+' 100 h18 M'+(x+14)+' 96 h18" stroke="#5a6b7c" stroke-width="1.2"/>';
+      s+=txt(x+80,104,'꺼짐',10,'#5a6b7c','start')+txt(x+118,104,'↗24°C',10,'#5a6b7c','start');
+      t['t'+i]=[x,62,152,56];
+    }
+    s+=rect(0,334,640,36,'#f3f4f5','#d3d6da',0,1);
+    s+=txt(22,352,'범례',12,'#666','start');
+    s+=txt(395,352,'선택 해제',12,sel.length?'#333':'#9aa1a8')+txt(470,352,'켜짐',12,sel.length?'#333':'#9aa1a8');
+    s+=rect(535,338,95,28,sel.length?'#fff':'#f3f4f5',sel.length?'#9aa1a8':'#d3d6da',3,1)+txt(582,352,'제어',13,sel.length?'#222':'#9aa1a8','middle',sel.length?700:400);
+    t.ctrl=[535,338,95,28];
+    return {svg:s,t:t};
+  }
+
+  function controlBase(){
+    var s=rect(0,0,640,370,'#eef0f1','none',0)+topbar('32:00:03 +3');
+    var rows=[['실내운전',60],['실내기운전모드',115],['희망온도',170],['풍량',225],['풍향',280]];
+    var vals=[null,'자동','24°C','자동','스윙'], i;
+    for(i=0;i<5;i++){
+      s+=txt(14,rows[i][1],rows[i][0],13,'#444','start');
+      if(i===0){ s+=toggleOff(212,rows[i][1]-15,92,30); }
+      else { s+=btn(212,rows[i][1]-15,92,30,vals[i],13); }
+    }
+    s+='<line x1="325" y1="42" x2="325" y2="326" stroke="#cfd3d7" stroke-width="1.5"/>';
+    s+=txt(345,60,'리모컨',13,'#444','start')+btn(480,45,140,30,'리모컨 허용',12);
+    s+=txt(345,115,'필터',13,'#444','start')+btn(480,100,140,30,'필터 리셋',12);
+    s+=rect(345,263,275,36,'url(#gGreen)','#4e8f22',3,1)+txt(482,281,'확장 운전',15,'#fff','middle',700);
+    s+=rect(0,334,640,36,'#f3f4f5','#d3d6da',0,1)+txt(455,352,'전송',13,'#333')+txt(590,352,'취소',13,'#333');
+    return s;
+  }
+  function sceneControl(){
+    return {svg:controlBase(),t:{ext:[345,263,275,36],send:[420,337,70,30]}};
+  }
+
+  function dlgFrame(title){
+    var s=controlBase()+'<rect x="0" y="0" width="640" height="370" fill="#000" opacity=".5"/>';
+    s+=rect(16,52,608,264,'url(#gPanel)','#b4bac0',6,1.5)+txt(320,78,title,15,'#333');
+    s+='<line x1="30" y1="94" x2="610" y2="94" stroke="#bcc2c8" stroke-width="1"/>';
+    s+=rect(17,268,606,47,'#c4cad0','none',0);
+    s+=btn(372,276,118,32,'확인',13)+btn(500,276,110,32,'취소',13);
+    return s;
+  }
+  function sceneExt(p){
+    var s=dlgFrame('확장 운전');
+    s+=txt(36,126,'재실 감지',13,'#444','start')+btn(130,111,100,30,'꺼짐',12,true);
+    s+=txt(36,176,'SPI',13,'#444','start')+toggleOff(130,161,100,30);
+    s+=txt(36,226,'운전모드 제한',13,'#444','start')+btn(130,210,104,32,MODELBL[p.val],12);
+    s+=txt(330,126,'냉방 온도 제한',13,'#444','start')+btn(492,111,100,30,'18~30°C',12);
+    s+=txt(330,176,'난방 온도 제한',13,'#444','start')+btn(492,161,100,30,'16~30°C',12);
+    return {svg:s,t:{limit:[130,210,104,32],ok:[372,276,118,32]}};
+  }
+
+  function iconSnow(cx,cy,c){
+    var g='<g transform="translate('+cx+','+cy+')" stroke="'+c+'" stroke-width="3" stroke-linecap="round">';
+    [0,60,120].forEach(function(a){ g+='<line x1="-28" y1="0" x2="28" y2="0" transform="rotate('+a+')"/>'; });
+    return g+'</g>';
+  }
+  function iconSun(cx,cy,c){
+    var g='<g transform="translate('+cx+','+cy+')" stroke="'+c+'" stroke-width="3" stroke-linecap="round" fill="none"><circle r="11"/>';
+    for(var a=0;a<360;a+=45){ g+='<line x1="18" y1="0" x2="26" y2="0" transform="rotate('+a+')"/>'; }
+    return g+'</g>';
+  }
+  function iconRing(cx,cy,c){
+    return '<circle cx="'+cx+'" cy="'+cy+'" r="24" fill="none" stroke="'+c+'" stroke-width="3"/>';
+  }
+  function sceneMode(p){
+    var s=dlgFrame('운전모드 제한'), on='#1e9bea', off='#4a5058', t={};
+    var o=[['cool',170,iconSnow],['heat',320,iconSun],['none',470,iconRing]];
+    o.forEach(function(it){
+      var sel=p.sel===it[0], c=sel?on:off;
+      s+=it[2](it[1],160,c)+txt(it[1],222,MODELBL[it[0]],15,c,'middle',sel?700:400);
+      t['opt-'+it[0]]=[it[1]-58,118,116,128];
+    });
+    t.ok=[372,276,118,32];
+    return {svg:s,t:t};
+  }
+
+  /* ---------- ON/OFF controller scene ---------- */
+  var OFFS={cool:0,auto:55,heat:110}, LBLY={cool:130,auto:185,heat:240}, KNOBX=502;
+  function sceneOnoff(p){
+    var s=rect(0,0,640,370,'#fff','none',0), i, j;
+    // controller body
+    s+=rect(26,95,200,215,'#e6e6e8','#3a3a3a',9,2.5);
+    s+='<circle cx="138" cy="116" r="4" fill="#333"/><circle cx="162" cy="116" r="8" fill="#fff" stroke="#333" stroke-width="2"/><circle cx="190" cy="116" r="8" fill="#fff" stroke="#333" stroke-width="2"/>';
+    s+=rect(40,132,172,166,'#8b8b8e','#555',6,1.5);
+    for(i=0;i<4;i++){ for(j=0;j<4;j++){ s+=rect(47+j*40,140+i*39,34,30,'#d8d8da','#555',3,1)+'<circle cx="'+(54+j*40)+'" cy="'+(146+i*39)+'" r="1.6" fill="#333"/>'; } }
+    s+=rect(226,194,12,14,'#111','none',2);
+    // connector lines
+    s+='<path d="M238 196 L325 110 M238 206 L325 260" stroke="#333" stroke-width="2" fill="none"/>';
+    // zoom circle
+    s+='<circle cx="455" cy="185" r="150" fill="#fff" stroke="#333" stroke-width="2.5"/>';
+    s+='<g clip-path="url(#zoomClip)">';
+    s+=rect(538,20,60,330,'url(#gEdge)','#555',0,2);
+    s+=rect(528,62,12,30,'#e9e9eb','#555',3,1.5)+rect(528,280,12,30,'#e9e9eb','#555',3,1.5);
+    s+=rect(366,98,104,174,'#fff','#555',2,2);
+    ['cool','auto','heat'].forEach(function(k){
+      var on=p.pos===k, y=LBLY[k];
+      s+=txt(380,y,{cool:'냉방',auto:'자동',heat:'난방'}[k],23,on?'#1f5bd8':'#222','start',on?700:500);
+      s+='<path d="M446 '+y+' h24" stroke="#555" stroke-width="2" fill="none"/>';
+    });
+    s+=rect(494,116,16,138,'#f1f1f2','#444',3,1.6);
+    s+='<g id="knob" style="transform:translateY('+OFFS[p.pos]+'px)">'+rect(KNOBX-16,113,32,34,'url(#stripe)','#222',3,1.8)+'</g>';
+    s+='</g>';
+    s+='<circle cx="455" cy="185" r="150" fill="none" stroke="#333" stroke-width="2.5"/>';
+    return {svg:s,t:{stub:[218,186,30,30],knob:[KNOBX-20,LBLY[p.pos]-22,40,44]}};
+  }
+
+  
+  /* =============== LG scenes =============== */
+/* ---------- diagram parts ---------- */
+  var WINE='#a50034';
+  var STATE={
+    heat:{t:'난방',c:'#d9480f',w:700},
+    cool:{t:'냉방',c:'#1971c2',w:700},
+    off :{t:'정지',c:'#868e96',w:500},
+    err :{t:'냉방 선택 안 됨',c:'#c92a2a',w:700}
+  };
+  function cassette(cx,cy,state,focus){
+    var dim=(state==='off'), s='';
+    s+='<polygon points="'+(cx-48)+','+cy+' '+cx+','+(cy+24)+' '+cx+','+(cy+31)+' '+(cx-48)+','+(cy+7)+'" fill="#d3d3d6" stroke="#8a8a8e" stroke-width="1.2"/>';
+    s+='<polygon points="'+cx+','+(cy+24)+' '+(cx+48)+','+cy+' '+(cx+48)+','+(cy+7)+' '+cx+','+(cy+31)+'" fill="#c4c4c8" stroke="#8a8a8e" stroke-width="1.2"/>';
+    s+='<polygon points="'+(cx-48)+','+cy+' '+cx+','+(cy-24)+' '+(cx+48)+','+cy+' '+cx+','+(cy+24)+'" fill="'+(dim?'#efeff0':'#fafafa')+'" stroke="#777" stroke-width="1.6"/>';
+    s+='<polygon points="'+(cx-30)+','+cy+' '+cx+','+(cy-15)+' '+(cx+30)+','+cy+' '+cx+','+(cy+15)+'" fill="#e4e4e6" stroke="#aaa" stroke-width="1"/>';
+    s+='<path d="M'+(cx-14)+' '+(cy-4)+' L'+cx+' '+(cy-11)+' L'+(cx+14)+' '+(cy-4)+' M'+(cx-14)+' '+(cy+4)+' L'+cx+' '+(cy-3)+' L'+(cx+14)+' '+(cy+4)+'" stroke="#b5b5b9" stroke-width="1" fill="none"/>';
+    if(focus) s+='<ellipse cx="'+cx+'" cy="'+(cy+4)+'" rx="62" ry="36" fill="none" stroke="#12a5a5" stroke-width="3" stroke-dasharray="7 5"/>';
+    return s;
+  }
+  function ulabel(cx,y,n,state){
+    var st=STATE[state];
+    return '<circle cx="'+(cx-38)+'" cy="'+y+'" r="9" fill="'+WINE+'"/>'+txt(cx-38,y,n,11,'#fff','middle',700)+txt(cx-24,y,st.t,13,st.c,'start',st.w);
+  }
+  function outdoor(){
+    var s=rect(10,190,84,142,'#e8e8ea','#666',4,1.8)+rect(16,198,46,126,'#5a5a5e','#444',2,1);
+    for(var i=0;i<8;i++){ s+='<line x1="16" y1="'+(208+i*15)+'" x2="62" y2="'+(208+i*15)+'" stroke="#9a9a9e" stroke-width="1.4"/>'; }
+    s+='<line x1="68" y1="206" x2="88" y2="206" stroke="#999"/><line x1="68" y1="262" x2="88" y2="262" stroke="#999"/>';
+    return s;
+  }
+
+  /* ---------- wired remote ---------- */
+  function remote(opt){
+    // opt: title, disp, blink, led, hl
+    var s='';
+    s+=txt(487,44,opt.title,14,'#222','middle',700);
+    s+=rect(352,62,270,262,'#f4f4f5','#444',10,2.5);
+    s+=rect(364,74,246,92,'#fbfbfb','#333',2,2);
+    s+='<path d="M510 80 v50 M548 80 v50 M586 80 v50" stroke="#cfcfd3" stroke-width="1.4"/>';
+    s+='<path d="M372 136 H602" stroke="#333" stroke-width="1.6"/>';
+    s+=txt(551,150,'일 월 화 수 목 금 토',9.5,'#333');
+    if(opt.hl){
+      s+='<g class="blink">'+txt(398,106,'HL',44,'#111','middle',700)+'<path d="M372 80 l14 -6 M386 76 l10 -3" stroke="#e03131" stroke-width="3" stroke-linecap="round" fill="none"/></g>';
+    } else if(opt.disp){
+      s+='<g'+(opt.blink?' class="blink"':'')+'>'+txt(378,106,opt.disp,opt.disp.length>2?24:30,'#111','start',700)+'</g>';
+    }
+    // keys
+    s+=rect(372,184,46,40,'#fff','#999',7,1.4)+'<path d="M386 210 l9 -9 l9 9" stroke="#555" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    s+=rect(372,234,46,40,'#fff','#999',7,1.4)+'<path d="M386 246 l9 9 l9 -9" stroke="#555" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    s+='<circle cx="448" cy="252" r="4" fill="#222"/>';
+    s+=rect(436,186,56,40,'#fff','#999',9,1.4)+txt(464,198,'바람',11,'#333')+txt(464,214,'세기',11,'#333');
+    s+='<ellipse cx="567" cy="176" rx="9" ry="4" fill="'+(opt.led?'#3b82f6':'#d9d9dc')+'" stroke="#999" stroke-width="1"/>';
+    s+='<circle cx="567" cy="208" r="24" fill="#fff" stroke="#999" stroke-width="1.6"/>'+txt(567,200,'운전',11,'#333')+txt(567,216,'정지',11,'#333');
+    s+='<circle cx="567" cy="268" r="24" fill="#fff" stroke="#999" stroke-width="1.6"/>'+txt(567,260,'운전',11,'#333')+txt(567,276,'선택',11,'#333');
+    return s;
+  }
+  var RT={stop:[543,184,48,48],select:[543,244,48,48],disp:[364,74,246,92]};
+
+  function sceneWired(p){
+    var s=rect(0,0,640,370,'#fff','none',0);
+    s+='<path d="M22 80 H270 M22 80 V192" stroke="#8d8d92" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    s+=outdoor();
+    var cx=[70,170,270], i;
+    for(i=0;i<3;i++){ s+=cassette(cx[i],62,p.u[i],p.ru===i); s+=ulabel(cx[i]+(i===2?-4:0),140,i+1,p.u[i]); }
+    s+=txt(170,176,p.ru!=null?((portrait?'아래':'오른쪽')+' 리모컨은 '+(p.ru+1)+'번 실내기 것이에요'):'',12,'#12a5a5','middle',500);
+    s+=remote({title:(p.ru+1)+'번 실내기 유선 리모컨',disp:p.disp,blink:p.blink,led:p.led});
+    return {svg:s,t:RT};
+  }
+
+  /* ---------- central control (HL) ---------- */
+  function toggle(x,y,locked){
+    var s=rect(x,y,76,30,locked?'#fde8e8':'#e3f6ea',locked?'#c92a2a':'#1a8f5a',15,2);
+    s+='<circle cx="'+(locked?x+61:x+15)+'" cy="'+(y+15)+'" r="10" fill="'+(locked?'#c92a2a':'#1a8f5a')+'"/>';
+    s+=txt(locked?x+30:x+46,y+15,locked?'잠김':'해제',12.5,locked?'#c92a2a':'#1a8f5a','middle',700);
+    return s;
+  }
+  function sceneHL(p){
+    var s=rect(0,0,640,370,'#fff','none',0);
+    // monitor
+    s+=rect(40,26,170,92,'#eef2f7','#555',6,2)+rect(48,34,154,76,'#fff','#bbb',3,1);
+    s+=txt(125,52,'중앙 제어',13,'#222','middle',700);
+    for(var i=0;i<3;i++){ s+=rect(58+i*46,66,38,32,p.hl?'#ffe3e3':'#e3f6ea',p.hl?'#e03131':'#1a8f5a',3,1.4); }
+    s+=rect(108,118,34,10,'#bbb','none',2)+rect(88,128,74,6,'#999','none',3);
+    s+=txt(125,150,'관리소의 중앙 제어 장치',12.5,'#444');
+    // link to remote
+    s+='<path d="M212 72 C 280 72, 300 100, 350 112" stroke="#8d8d92" stroke-width="2.4" fill="none" stroke-dasharray="6 5"/>';
+    s+='<polygon points="350,112 340,104 338,115" fill="#8d8d92"/>';
+    s+=txt(292,60,'원격 제어',11.5,'#777');
+    // lock panel
+    s+=rect(30,172,300,150,'#f7f8fa','#c5cbd3',8,1.6)+txt(46,190,'잠금 설정 (예시)',13,'#222','start',700);
+    s+=txt(46,232,'전체 잠금',14,'#333','start')+toggle(240,217,p.la);
+    s+=txt(46,284,'개별 잠금',14,'#333','start')+toggle(240,269,p.le);
+    s+=remote({title:'실내기 유선 리모컨',hl:p.hl,disp:p.hl?null:null});
+    return {svg:s,t:{disp:RT.disp,panel:[30,172,300,150],lockAll:[240,217,76,30],lockEach:[240,269,76,30]}};
+  }
+
+  
+  /* =============== CARRIER scenes =============== */
+  var CR_MODES=['자동','냉방','제습','난방','송풍'];
+  function padlock(x,y,k,c){
+    return '<g transform="translate('+x+','+y+') scale('+k+')"><path d="M3.5 9 V6 a4.5 4.5 0 0 1 9 0 V9" fill="none" stroke="'+c+'" stroke-width="2.2"/><rect x="0" y="9" width="16" height="11" rx="2" fill="'+c+'"/><rect x="7" y="12" width="2" height="5" fill="#c9cdb8"/></g>';
+  }
+  function crLcd(x,y,k,p){
+    var s='<g transform="translate('+x+','+y+') scale('+k+')">';
+    s+=rect(0,0,190,95,'#c9cdb8','#6f7366',6,1.5);
+    CR_MODES.forEach(function(m,i){
+      var on=(p.mode===i);
+      s+=txt(12,13+i*17,m,10,on?'#111':'#7d8274','start',on?700:400);
+      if(on) s+='<polygon points="4,'+(9+i*17)+' 9,'+(13+i*17)+' 4,'+(17+i*17)+'" fill="#111"/>';
+    });
+    s+='<line x1="38" y1="6" x2="38" y2="89" stroke="#7d8274" stroke-width="1"/>';
+    s+=txt(74,16,'SET TEMP.',8,'#333','start');
+    s+=txt(118,52,'24',46,'#222','middle',700);
+    s+=txt(152,30,'°C',12,'#222','start');
+    s+=txt(178,82,'AUTO',8,'#333','end');
+    for(var j=0;j<6;j++){ s+=rect(78+j*9,76,6,10,'#555','none',1); }
+    if(p.locked) s+='<g class="blink">'+padlock(48,6,0.9,'#111')+'</g>';
+    return s+'</g>';
+  }
+  function crBtn(x,y,w,h,label,size){
+    return rect(x,y,w,h,'#eef0ee','#a7aba4',9,1.3)+txt(x+w/2,y+h/2,label,size||10.5,'#333','middle',500);
+  }
+  var CRT={mode:[95,172,52,32],wind:[213,172,52,32],fanAuto:[95,222,52,30],fanManual:[95,262,52,30],offTimer:[213,222,52,30],onTimer:[213,262,52,30],lcd:[85,22,190,95]};
+  function sceneCarrier(p){
+    var s=rect(0,0,640,370,'#fff','none',0);
+    s+=rect(70,6,220,358,'#fafafa','#9a9a9a',30,2);
+    s+=crLcd(85,22,1,p);
+    s+='<circle cx="122" cy="145" r="13" fill="#eef0ee" stroke="#a7aba4"/><path d="M116 142 l6 7 l6 -7" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    s+='<circle cx="238" cy="145" r="13" fill="#eef0ee" stroke="#a7aba4"/><path d="M232 148 l6 -7 l6 7" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    s+=txt(180,145,'온도 설정',9.5,'#666');
+    s+='<circle cx="180" cy="188" r="22" fill="#3d8de0" stroke="#2a6db3" stroke-width="1.5"/><path d="M173 182 a10 10 0 1 0 14 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/><line x1="180" y1="177" x2="180" y2="188" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>';
+    s+=crBtn(95,172,52,32,'운전선택')+crBtn(213,172,52,32,'바람세기');
+    var L=[['자동풍향','절전','꺼짐예약'],['수동풍향','수면','켜짐예약'],['청정','LED','터보']], cx=[95,154,213], r, c;
+    for(r=0;r<3;r++){ for(c=0;c<3;c++){ s+=crBtn(cx[c],222+r*40,52,30,L[r][c],10); } }
+    s+=txt(478,30,'리모컨 화면 확대',13,'#444','middle',700);
+    s+=crLcd(335,48,1.5,p);
+    if(p.locked){
+      s+=padlock(350,222,1,'#c92a2a')+txt(374,233,'잠금 상태 · 버튼이 눌리지 않아요',13.5,'#c92a2a','start',700);
+    } else {
+      s+='<circle cx="358" cy="233" r="9" fill="#1a8f5a"/><path d="M353 233 l4 4 l7 -8" stroke="#fff" stroke-width="2.2" fill="none"/>'+txt(374,233,'잠금 해제 · 모든 버튼 사용 가능',13.5,'#1a8f5a','start',700);
+    }
+    if(p.hold){
+      s+=txt(478,272,'두 버튼을 동시에 2초 이상 꾹!',14,'#ff7a1e','middle',700);
+      s+=rect(370,290,216,12,'#f1f3f5','#dee2e6',6,1)+'<rect class="holdfill" x="370" y="290" width="216" height="12" rx="6" fill="#ff7a1e"/>';
+      s+=txt(370,316,'0초',11,'#888','start')+txt(586,316,'2초',11,'#888','end');
+    } else if(p.toast){
+      s+=rect(388,262,180,36,p.locked?'#868e96':'#1a8f5a','none',18)+txt(478,280,p.toast,14,'#fff','middle',700);
+    }
+    return {svg:s,t:CRT};
+  }
+
+  var SCENES={home:sceneHome,zone:sceneZone,control:sceneControl,ext:sceneExt,mode:sceneMode,onoff:sceneOnoff,wired:sceneWired,hl:sceneHL,carrier:sceneCarrier};
+
+  /* =============== step definitions =============== */
+var choice={touch:'none',onoff:'heat'};
+
+  var CHIPS={
+    touch:[['none','설정없음 (냉·난방 모두)'],['heat','난방전용'],['cool','냉방전용']],
+    onoff:[['cool','냉방'],['auto','자동'],['heat','난방']]
+  };
+  var CHIPLABEL={touch:'바꾸고 싶은 설정',onoff:'스위치 위치'};
+  var CHOICESTEP={touch:4,onoff:1};
+
+  function initRestrict(){ return choice.touch==='cool'?'heat':'cool'; }
+
+  function touchSteps(){
+    var c=choice.touch, d5={
+      none:'<b>설정없음</b>을 누르면 제한이 풀려 <b>냉방·난방을 모두</b> 쓸 수 있어요. 계절이 바뀔 때 가장 편한 선택이에요.',
+      heat:'<b>난방전용</b>을 누르면 <b>난방 운전만</b> 가능하고, 냉방 운전은 사용할 수 없어요.',
+      cool:'<b>냉방전용</b>을 누르면 <b>냉방 운전만</b> 가능하고, 난방 운전은 사용할 수 없어요.'
+    }[c];
+    return [
+      {title:'제어 및 모니터링 선택',
+       desc:'홈 화면에서 <b>제어 및 모니터링</b>을 누릅니다.',
+       frames:function(){return [{s:['home',{}],tap:'ctl'}]},
+       result:function(){return ['zone',{sel:[]}]}},
+      {title:'실내기 선택',
+       desc:'제한을 바꿀 <b>실내기</b>를 눌러 선택하고, 오른쪽 아래 <b>제어</b>를 누릅니다. 여러 대를 한꺼번에 선택할 수 있어요.',
+       frames:function(){return [
+         {s:['zone',{sel:[]}],tap:'t0'},{s:['zone',{sel:[0]}],tap:'t1'},
+         {s:['zone',{sel:[0,1]}],tap:'t2'},{s:['zone',{sel:[0,1,2]}],tap:'t3'},
+         {s:['zone',{sel:[0,1,2,3]}],tap:'ctrl'}]},
+       result:function(){return ['control',{}]}},
+      {title:'확장 운전 선택',
+       desc:'제어 화면 오른쪽 아래의 초록색 <b>확장 운전</b> 버튼을 누릅니다.',
+       frames:function(){return [{s:['control',{}],tap:'ext'}]},
+       result:function(){return ['ext',{val:initRestrict()}]}},
+      {title:'운전모드 제한 선택',
+       desc:'확장 운전 창에서 <b>운전모드 제한</b> 옆 버튼(현재 설정이 표시돼요)을 누릅니다.',
+       frames:function(){return [{s:['ext',{val:initRestrict()}],tap:'limit'}]},
+       result:function(){return ['mode',{sel:initRestrict()}]}},
+      {title:'사용할 운전모드 선택',
+       desc:d5,
+       frames:function(){return [{s:['mode',{sel:initRestrict()}],tap:'opt-'+c}]},
+       result:function(){return ['mode',{sel:c}]}},
+      {title:'확인 → 확인 → 전송',
+       desc:'운전모드 제한 창의 <b>확인</b>, 확장 운전 창의 <b>확인</b>을 차례로 누르고, 마지막으로 <b>전송</b>을 눌러야 설정이 완료돼요.',
+       frames:function(){return [
+         {s:['mode',{sel:c}],tap:'ok'},{s:['ext',{val:c}],tap:'ok'},{s:['control',{}],tap:'send'}]},
+       result:function(){return ['home',{toast:true}]}}
+    ];
+  }
+
+  function onoffSteps(){
+    var c=choice.onoff, start=(c==='cool')?'heat':'cool';
+    var d2={
+      cool:'스위치를 <b>냉방</b>으로 밀어 주세요. <b>냉방운전만</b> 선택되며 난방운전은 사용할 수 없어요.',
+      heat:'스위치를 <b>난방</b>으로 밀어 주세요. <b>난방운전만</b> 선택되며 냉방운전은 사용할 수 없어요.',
+      auto:'스위치를 <b>자동</b>에 두면 <b>처음 선택된 운전모드만</b> 사용할 수 있어요.'
+    }[c];
+    return [
+      {title:'냉난방 선택 스위치 찾기',
+       desc:'중앙제어기 <b>오른쪽 옆면</b>에 있는 <b>냉난방 선택 스위치</b>를 찾습니다. 냉방 / 자동 / 난방 세 칸으로 되어 있어요.',
+       frames:function(){return [{s:['onoff',{pos:start}],tap:'stub'}]},
+       result:function(){return ['onoff',{pos:start}]}},
+      {title:'원하는 운전모드로 밀기',
+       desc:d2,
+       frames:function(){return [{s:['onoff',{pos:start}],drag:true}]},
+       result:function(){return ['onoff',{pos:c}]}}
+    ];
+  }
+  
+var U0=['heat','heat','err'];
+
+  function wiredSteps(){
+    return [
+      {title:'이런 증상이에요',
+       desc:'①②번 실내기가 <b>난방</b> 중이면 ③번 리모컨에서는 <b>냉방이 선택되지 않아요.</b> 운전선택을 눌러도 송풍 · 인공지능 · 난방만 돌아갑니다. 고장이 아니에요.',
+       frames:function(){return [
+         {s:['wired',{u:U0,ru:2,disp:'난방',blink:true,led:true}],tap:'select'},
+         {s:['wired',{u:U0,ru:2,disp:'송풍',led:true}],tap:'select'},
+         {s:['wired',{u:U0,ru:2,disp:'인공지능',led:true}],tap:'select'}]},
+       result:function(){return ['wired',{u:U0,ru:2,disp:'난방',blink:true,led:true}]}},
+      {title:'실내기를 차례로 모두 끄기',
+       desc:'각 실내기 리모컨의 <b>운전정지</b> 버튼을 눌러 <b>모든 실내기를 차례로</b> 끕니다.',
+       frames:function(){return [
+         {s:['wired',{u:['heat','heat','err'],ru:0,disp:'난방',led:true}],tap:'stop'},
+         {s:['wired',{u:['off','heat','err'],ru:1,disp:'난방',led:true}],tap:'stop'},
+         {s:['wired',{u:['off','off','err'],ru:2,disp:'난방',led:true}],tap:'stop'}]},
+       result:function(){return ['wired',{u:['off','off','off'],ru:2,disp:'',led:false}]}},
+      {title:'선택이 안 되던 실내기부터 켜기',
+       desc:'모든 에어컨이 멈췄다면, <b>냉방 선택이 안 되던 ③번</b>부터 다시 켭니다. 이제 냉방을 선택할 수 있어요.',
+       frames:function(){return [
+         {s:['wired',{u:['off','off','off'],ru:2,disp:'',led:false}],tap:'stop'}]},
+       result:function(){return ['wired',{u:['off','off','cool'],ru:2,disp:'냉방',led:true}]}},
+      {title:'나머지 실내기도 켜기',
+       desc:'나머지 실내기도 차례로 켭니다. 같은 실외기에 연결된 실내기는 <b>같은 모드</b>로 맞춰 주세요.',
+       frames:function(){return [
+         {s:['wired',{u:['off','off','cool'],ru:0,disp:'',led:false}],tap:'stop'},
+         {s:['wired',{u:['cool','off','cool'],ru:1,disp:'',led:false}],tap:'stop'}]},
+       result:function(){return ['wired',{u:['cool','cool','cool'],ru:1,disp:'냉방',led:true}]}}
+    ];
+  }
+  function centralSteps(){
+    return [
+      {title:'리모컨 화면의 HL 확인',
+       desc:'유선 리모컨 화면에 <b>[HL]</b>이 깜빡이면, 중앙 제어에서 각 실의 <b>개별 제어를 막아 둔 상태</b>예요.',
+       frames:function(){return [{s:['hl',{hl:true,la:true,le:true}],tap:'disp'}]},
+       result:function(){return ['hl',{hl:true,la:true,le:true}]}},
+      {title:'중앙 제어 장치 확인',
+       desc:'학교 · 회사 등에서 냉/난방을 원격으로 관리하는 <b>중앙 제어 장치</b>에 <b>개별 잠금</b> 또는 <b>전체 잠금</b>이 걸려 있는지 확인합니다.',
+       frames:function(){return [{s:['hl',{hl:true,la:true,le:true}],tap:'panel'}]},
+       result:function(){return ['hl',{hl:true,la:true,le:true}]}},
+      {title:'잠금 해제',
+       desc:'<b>개별 잠금 · 전체 잠금을 해제</b>합니다. PC 중앙제어장치는 담당자에게 해제를 요청하세요. (잠금 화면은 예시이며 장치마다 달라요)',
+       frames:function(){return [
+         {s:['hl',{hl:true,la:true,le:true}],tap:'lockAll'},
+         {s:['hl',{hl:true,la:false,le:true}],tap:'lockEach'}]},
+       result:function(){return ['hl',{hl:false,la:false,le:false}]}}
+    ];
+  }
+  
+  choice.carrier='fan';
+  CHIPS.carrier=[['fan','자동풍향 + 수동풍향'],['timer','꺼짐예약 + 켜짐예약']];
+  CHIPLABEL.carrier='동시에 누를 버튼';
+  CHOICESTEP.carrier=1;
+  function carrierSteps(){
+    var c=choice.carrier, pair=(c==='fan')?['fanAuto','fanManual']:['offTimer','onTimer'];
+    var nm=(c==='fan')?'자동풍향 + 수동풍향':'꺼짐예약 + 켜짐예약';
+    var other=(c==='fan')?'꺼짐예약 + 켜짐예약':'자동풍향 + 수동풍향';
+    return [
+      {title:'잠금 표시 확인',
+       desc:'리모컨 화면에 <b>자물쇠·열쇠 모양</b>이 보이면 리모컨이 잠긴 상태예요. 잠겨 있으면 <b>운전선택</b>을 눌러도 냉방·난방으로 바뀌지 않아요.',
+       frames:function(){return [{s:['carrier',{locked:true,mode:1}],tap:'mode'}]},
+       result:function(){return ['carrier',{locked:true,mode:1,toast:'반응 없음'}]}},
+      {title:'두 버튼을 동시에 2초 이상 누르기',
+       desc:'<b>'+nm+'</b> 버튼을 <b>동시에 2초 이상</b> 꾹 눌러 주세요. 잠글 때 썼던 조합으로 풀려요. 안 풀리면 <b>'+other+'</b> 조합으로도 해 보세요.',
+       frames:function(){return [{s:['carrier',{locked:true,mode:1}],dual:pair,hold:['carrier',{locked:true,mode:1,hold:true}]}]},
+       result:function(){return ['carrier',{locked:false,mode:1,toast:'잠금 해제 ✓'}]}},
+      {title:'운전모드 선택',
+       desc:'자물쇠·열쇠 모양이 <b>사라지면 해제 완료</b>예요. 이제 <b>운전선택</b>을 눌러 냉방·난방 등 원하는 모드를 고르면 됩니다.',
+       frames:function(){return [
+         {s:['carrier',{locked:false,mode:1}],tap:'mode'},
+         {s:['carrier',{locked:false,mode:2}],tap:'mode'}]},
+       result:function(){return ['carrier',{locked:false,mode:3,toast:'난방 선택됨'}]}}
+    ];
+  }
+
+  var TABSTEPS={touch:touchSteps,onoff:onoffSteps,wired:wiredSteps,central:centralSteps,carrier:carrierSteps};
+  var tab=null, brand=null;
+  function steps(){ return TABSTEPS[tab](); }
+
+  /* ---------- brand content ---------- */
+  var BRANDS={
+    samsung:{
+      eyebrow:'삼성전자 에어컨 · 중앙제어기',
+      title:'냉방·난방 전용 설정 해제하기',
+      lead:'계절이 바뀌었는데 난방(또는 냉방)이 켜지지 않나요? 중앙제어기에 <b>운전모드 제한</b>이 걸려 있을 수 있어요. 사용하시는 제어기를 고르고, 화면에서 손가락이 누르는 곳을 그대로 따라 해 보세요.',
+      tabs:[['touch','터치식 중앙제어기 (ACM-A300N)'],['onoff','ON/OFF 중앙제어기']],
+      notes:'<div class="note"><h2>이럴 때 확인해 보세요</h2><ul>'+
+        '<li>여름에 <b>냉방전용</b>으로 설정해 두었는데 겨울에도 그대로라서 난방이 켜지지 않을 때</li>'+
+        '<li>반대로 <b>난방전용</b>으로 두었는데 여름에 냉방이 켜지지 않을 때</li>'+
+        '<li>리모컨·제어기에서 난방(또는 냉방) 모드가 선택되지 않거나 회색으로 보일 때</li></ul></div>',
+      foot:'※ 삼성전자 터치식 중앙제어기(ACM-A300N)와 ON/OFF 중앙제어기 기준입니다. 설치 환경에 따라 화면이 조금 다를 수 있어요. 따라 해도 해결되지 않으면 삼성전자 서비스센터에 문의해 주세요.'
+    },
+    lg:{
+      eyebrow:'LG전자 에어컨 · 시스템(천장형) 에어컨',
+      title:'냉방·난방이 선택되지 않을 때',
+      lead:'리모컨에서 냉방(또는 난방)이 눌러도 선택되지 않나요? 고장이 아니라 <b>냉/난방 동시 운전 에러</b>이거나 <b>중앙제어 잠금</b> 때문일 수 있어요. 해당하는 탭을 고르고, 화면에서 손가락이 누르는 곳을 따라 해 보세요.',
+      tabs:[['wired','유선 리모컨 사용 시'],['central','리모컨에 [HL] 표시 (중앙제어)']],
+      notes:'<div class="note"><h2>왜 이런 일이 생기나요?</h2><p>한 대의 실외기에 여러 실내기가 연결된 경우, 난방으로 운전 중인 실내기가 있으면 다른 실내기에서는 냉방이 선택되지 않을 수 있어요(반대의 경우도 같아요). 제품 이상이나 고장이 아니라서, 안내 순서대로 실내기를 정리해 주시면 됩니다.</p></div>'+
+        '<div class="note"><h2>무선 리모컨을 사용하시나요?</h2><p>운전 정지 버튼으로 실내기를 차례로 모두 끈 뒤 약 5분 기다리세요. 그다음 모든 실내기를 같은 모드(냉방 또는 난방)로 차례로 켭니다. 모드가 맞지 않으면 부저음이 5번 울려요.</p></div>',
+      foot:'※ 화면 구성은 천장형 시스템 에어컨 유선 리모컨 기준의 예시이며, 모델에 따라 조금 다를 수 있어요. 따라 해도 해결되지 않으면 LG전자 서비스센터에 문의해 주세요.<br>참고: <a href="https://www.lge.co.kr/support/solutions-1423730107827?category=CT50019183&subCategory=CT50019259&mktModelCd=LRP-V1450A&sort=update&page=0&cstFlag=Y&seq=102" target="_blank" rel="noopener">LG전자 고객지원 · 난방 선택이 안 돼요. 난방이 없어졌어요</a>'
+    }
+    ,carrier:{
+      eyebrow:'캐리어 에어컨 · 무선 리모컨',
+      title:'리모컨 잠금 해제하기',
+      lead:'리모컨 버튼을 눌러도 냉방·난방으로 바뀌지 않나요? 리모컨이 <b>잠금 상태</b>일 수 있어요. 화면에 자물쇠·열쇠 모양이 있는지 확인하고, 손가락이 누르는 두 버튼을 동시에 눌러 보세요.',
+      tabs:[['carrier','무선 리모컨 잠금 해제']],
+      notes:'<div class="note"><h2>그래도 잠금이 풀리지 않으면</h2><ul>'+
+        '<li><b>리모컨 배터리 분리 후 재장착:</b> 배터리를 모두 빼고 10~15분 정도 기다린 뒤 다시 넣어 보세요.</li>'+
+        '<li><b>리셋 버튼:</b> 일부 리모컨에는 볼펜 심 등으로 누르는 작은 RESET(재설정) 버튼이 있어요.</li>'+
+        '<li><b>에어컨 본체 전원 차단:</b> 플러그를 뽑거나 차단기를 내리고 약 5분 뒤 다시 연결한 다음, 잠금 해제를 다시 시도해 보세요.</li>'+
+        '<li><b>캐리어 고객센터:</b> 1588-8866 (리모컨·에어컨 모델명을 미리 확인해 두면 상담이 빨라요)</li></ul></div>',
+      foot:'※ 버튼 이름과 배치는 리모컨 모델마다 조금 다를 수 있어요. 리모컨에서 같은 이름의 버튼(풍향 2개 또는 예약 2개)을 찾아 동시에 눌러 주세요. 따라 해도 해결되지 않으면 캐리어 서비스센터에 문의해 주세요.'
+    }
+  };
+
+  /* ---------- engine ---------- */
+  var sceneEl=$('#scene'), hlEl=$('#hl'), finger=$('#finger'), finger2=$('#finger2'), targets={};
+  var token=0, cur=0, playing=true, stepDone=false, fingerAt=null;
+
+  function wait(ms,tk){return new Promise(function(r){setTimeout(function(){r(tk===token)},ms)})}
+  /* ---- portrait (phone) layout ---- */
+  var svgEl=$('#screen'), MQ=window.matchMedia('(max-width:600px)'), portrait=MQ.matches, parts=null, lastFocus=null;
+  var PW=360, GAP=14;
+  var LAYOUT={ /* [sx,sy,sw,sh,scale] stacked top to bottom */
+    onoff:[[20,88,232,228,0.9],[298,26,316,318,1.06]],
+    wired:[[0,30,330,160,1.05],[350,32,275,295,1.2]],
+    hl:[[350,32,275,295,1.15],[28,170,304,155,1.1]],
+    carrier:[[330,40,295,285,1.05],[70,130,220,234,1.25]]
+  };
+  var MAG={home:1,zone:1,control:1,ext:1,mode:1};
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+  function setScene(name,p,focus){
+    var o=SCENES[name](p); targets=o.t; hlEl.innerHTML='';
+    if(!portrait){ parts=null; svgEl.setAttribute('viewBox','0 0 640 370'); sceneEl.innerHTML=o.svg; return; }
+    var spec;
+    if(MAG[name]){
+      if(!focus || !targets[focus]) focus=targets.toast?'toast':(targets[lastFocus]?lastFocus:null);
+      lastFocus=focus;
+      var r=focus?targets[focus]:[320,185,0,0], fx=r[0]+r[2]/2, fy=r[1]+r[3]/2, mw=260, mh=170;
+      spec=[[0,0,640,370,(PW-12)/640],[clamp(fx-mw/2,0,640-mw),clamp(fy-mh/2,0,370-mh),mw,mh,(PW-12)/mw]];
+    } else spec=LAYOUT[name];
+    var y=6, html='';
+    parts=spec.map(function(q){
+      var w=q[2]*q[4], h=q[3]*q[4], o2={sx:q[0],sy:q[1],sw:q[2],sh:q[3],k:q[4],dx:(PW-w)/2,dy:y,w:w,h:h};
+      y+=h+GAP; return o2;
+    });
+    parts.forEach(function(q,i){
+      html+='<clipPath id="pc'+i+'"><rect x="'+q.sx+'" y="'+q.sy+'" width="'+q.sw+'" height="'+q.sh+'"/></clipPath>';
+      html+='<rect x="'+(q.dx-1.5)+'" y="'+(q.dy-1.5)+'" width="'+(q.w+3)+'" height="'+(q.h+3)+'" rx="6" fill="#fff" stroke="#cfd6df" stroke-width="1.5"/>';
+      html+='<g transform="translate('+q.dx+','+q.dy+') scale('+q.k+') translate('+(-q.sx)+','+(-q.sy)+')"><g clip-path="url(#pc'+i+')">'+o.svg+'</g></g>';
+    });
+    if(MAG[name]){
+      var a=parts[0], b=parts[1];
+      html+='<rect x="'+(a.dx+(b.sx-a.sx)*a.k)+'" y="'+(a.dy+(b.sy-a.sy)*a.k)+'" width="'+(b.sw*a.k)+'" height="'+(b.sh*a.k)+'" rx="3" fill="none" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="5 4"/>';
+      html+='<g transform="translate('+(PW/2)+','+(b.dy-GAP/2)+')"><rect x="-34" y="-9" width="68" height="18" rx="9" fill="#ff7a1e"/>'+txt(0,0,'▼ 확대',11,'#fff','middle',700)+'</g>';
+    }
+    svgEl.setAttribute('viewBox','0 0 '+PW+' '+Math.round(y-GAP+6));
+    sceneEl.innerHTML=html;
+  }
+  function partsFor(r){
+    if(!parts) return [{k:1,m:r}];
+    var cx=r[0]+r[2]/2, cy=r[1]+r[3]/2, out=[];
+    parts.forEach(function(q){
+      if(cx>=q.sx&&cx<=q.sx+q.sw&&cy>=q.sy&&cy<=q.sy+q.sh)
+        out.push({k:q.k,m:[q.dx+(r[0]-q.sx)*q.k,q.dy+(r[1]-q.sy)*q.k,r[2]*q.k,r[3]*q.k]});
+    });
+    return out.length?out:[{k:1,m:r}];
+  }
+  function mapped(n){ var l=partsFor(targets[n]); return l[l.length-1]; }
+  function center(n){var r=mapped(n).m;return [r[0]+r[2]/2,r[1]+r[3]/2]}
+  function showHl(n){
+    var list=[].concat(n), h='';
+    list.forEach(function(k){ partsFor(targets[k]).forEach(function(pp){ var r=pp.m;
+      h+='<rect class="hlbox" x="'+(r[0]-3)+'" y="'+(r[1]-3)+'" width="'+(r[2]+6)+'" height="'+(r[3]+6)+'" rx="7"/>'; }); });
+    hlEl.innerHTML=h;
+  }
+  function moveF2(x,y,ms){
+    finger2.style.transition=ms?('transform '+ms+'ms cubic-bezier(.4,0,.2,1), opacity .3s'):'opacity .3s';
+    finger2.style.transform='translate('+x+'px,'+y+'px)'; finger2.style.opacity=1;
+  }
+  function hideF2(){ finger2.style.opacity=0; }
+  function moveFinger(x,y,ms){
+    finger.style.transition=ms?('transform '+ms+'ms cubic-bezier(.4,0,.2,1), opacity .3s'):'opacity .3s';
+    finger.style.transform='translate('+x+'px,'+y+'px)';
+    finger.style.opacity=1; fingerAt=[x,y];
+  }
+  function press(el){
+    el=el||finger; el.classList.remove('press'); void el.getBoundingClientRect(); el.classList.add('press');
+  }
+
+  async function run(){
+    var tk=++token, S=steps(), st=S[cur];
+    stepDone=false; renderUI();
+    hideF2();
+    if(!fingerAt){ finger.style.transition='none'; finger.style.transform='translate(660px,390px)'; finger.style.opacity=0; }
+    var frames=st.frames(), i, f, c;
+    for(i=0;i<frames.length;i++){
+      f=frames[i];
+      setScene(f.s[0],f.s[1],f.tap||(f.dual&&f.dual[0])||(f.drag&&'knob'));
+      if(!await wait(550,tk)) return;
+      if(f.dual){
+        var a=center(f.dual[0]), bb=center(f.dual[1]);
+        showHl(f.dual);
+        finger2.style.transition='none'; finger2.style.transform='translate('+(fingerAt?fingerAt[0]:bb[0])+'px,'+(fingerAt?fingerAt[1]:390)+'px)'; void finger2.getBoundingClientRect();
+        moveFinger(a[0],a[1],850); moveF2(bb[0],bb[1],850);
+        if(!await wait(950,tk)) return;
+        press(finger); press(finger2);
+        setScene(f.hold[0],f.hold[1],f.dual[0]); showHl(f.dual);
+        if(!await wait(2300,tk)) return;
+        hlEl.innerHTML=''; hideF2();
+      } else if(f.drag){
+        var kc=center('knob'), pos0=f.s[1].pos, pos1=choice.onoff;
+        showHl('knob');
+        moveFinger(kc[0],kc[1],850);
+        if(!await wait(950,tk)) return;
+        press(); if(!await wait(350,tk)) return;
+        var dy=(OFFS[pos1]-OFFS[pos0])*mapped('knob').k;
+        hlEl.innerHTML='';
+        document.querySelectorAll('#knob').forEach(function(kn){ kn.style.transition='transform .9s cubic-bezier(.4,0,.2,1)'; kn.style.transform='translateY('+OFFS[pos1]+'px)'; });
+        moveFinger(kc[0],kc[1]+dy,900);
+        if(!await wait(1100,tk)) return;
+      } else {
+        showHl(f.tap);
+        c=center(f.tap);
+        moveFinger(c[0],c[1],850);
+        if(!await wait(950,tk)) return;
+        press();
+        if(!await wait(600,tk)) return;
+        hlEl.innerHTML='';
+      }
+    }
+    setScene(st.result()[0],st.result()[1]);
+    stepDone=true; renderUI();
+    if(!await wait(2000,tk)) return;
+    advance();
+  }
+  function advance(){
+    if(!playing || !tab) return;
+    var n=steps().length;
+    if(cur<n-1){ cur++; } else { cur=0; fingerAt=null; }
+    run();
+  }
+  function go(i){
+    var n=steps().length;
+    cur=Math.max(0,Math.min(n-1,i)); fingerAt=null; run();
+  }
+
+  /* ---------- UI ---------- */
+  function renderUI(){
+    var S=steps(), n=S.length, html='';
+    S.forEach(function(st,i){
+      var cls='step'+(i===cur?' on':'')+(i<cur?' done':'');
+      html+='<li class="'+cls+'"><button type="button" data-i="'+i+'" aria-current="'+(i===cur?'step':'false')+'"><span class="n">'+(i<cur?'✓':(i+1))+'</span><span class="b"><strong>'+st.title+'</strong><span class="d">'+st.desc+'</span></span></button></li>';
+    });
+    $('#steps').innerHTML=html;
+    $('#count').textContent='단계 '+(cur+1)+' / '+n;
+    $('#prog').style.width=(((cur+(stepDone?1:0.5))/n)*100)+'%';
+    var pb=$('#play'); pb.textContent=playing?'일시정지':'▶ 재생'; pb.setAttribute('aria-label',playing?'일시정지':'재생');
+    var chipEl=$('#chips'), list=CHIPS[tab];
+    if(list){
+      var ch='<span class="lbl">'+CHIPLABEL[tab]+'</span>';
+      list.forEach(function(c){
+        ch+='<button type="button" class="chip" data-c="'+c[0]+'" aria-pressed="'+(choice[tab]===c[0])+'">'+c[1]+'</button>';
+      });
+      chipEl.innerHTML=ch; chipEl.style.display='';
+    } else { chipEl.innerHTML=''; chipEl.style.display='none'; }
+    $('#stage').className='stage'+(tab==='touch'?' dark':'');
+  }
+
+  function renderTabs(){
+    var html='';
+    BRANDS[brand].tabs.forEach(function(t){
+      html+='<button role="tab" type="button" data-tab="'+t[0]+'" aria-selected="'+(t[0]===tab)+'">'+t[1]+'</button>';
+    });
+    $('#tabs').innerHTML=html;
+    $('#tabs').hidden=BRANDS[brand].tabs.length<2;
+  }
+  function setHash(h){
+    try{
+      if(h) history.replaceState(null,'','#'+h);
+      else history.replaceState(null,'',location.pathname+location.search);
+    }catch(e){}
+  }
+
+  function showPicker(updateHash){
+    token++; brand=null; tab=null; fingerAt=null;
+    $('#guide').hidden=true; $('#picker').hidden=false;
+    if(updateHash) setHash('');
+    window.scrollTo(0,0);
+    if(window.notifyParentTop) window.notifyParentTop();
+  }
+  function showBrand(b,t,updateHash){
+    brand=b; tab=t||BRANDS[b].tabs[0][0]; cur=0; fingerAt=null; playing=true;
+    var B=BRANDS[b];
+    $('#picker').hidden=true; $('#guide').hidden=false;
+    $('#g-eyebrow').textContent=B.eyebrow;
+    $('#g-title').textContent=B.title;
+    $('#g-lead').innerHTML=B.lead;
+    $('#notes').innerHTML=B.notes;
+    $('#foot').innerHTML=B.foot;
+    renderTabs();
+    if(updateHash) setHash(b+(tab===B.tabs[0][0]?'':'-'+tab));
+    window.scrollTo(0,0);
+    if(window.notifyParentTop) window.notifyParentTop();
+    run();
+  }
+  function showTab(t){
+    tab=t; cur=0; fingerAt=null;
+    renderTabs();
+    setHash(brand+(t===BRANDS[brand].tabs[0][0]?'':'-'+t));
+    run();
+  }
+
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('button'); if(!t) return;
+    if(t.dataset.brand){ showBrand(t.dataset.brand,null,true); return; }
+    if(t.id==='back'){ showPicker(true); return; }
+    if(!brand) return;
+    if(t.dataset.tab){ showTab(t.dataset.tab); return; }
+    if(t.dataset.i!=null){ go(parseInt(t.dataset.i,10)); return; }
+    if(t.dataset.c){ choice[tab]=t.dataset.c; go(CHOICESTEP[tab]); return; }
+    if(t.id==='prev'){ go(cur-1); return; }
+    if(t.id==='next'){ go(cur+1); return; }
+    if(t.id==='play'){
+      playing=!playing; renderUI();
+      if(playing && stepDone){ advance(); }
+    }
+  });
+
+  function fromHash(){
+    var h=location.hash.replace('#',''), m=/^(samsung|lg|carrier)(?:-([a-z]+))?$/.exec(h);
+    if(!m){ if(brand) showPicker(false); return; }
+    var B=BRANDS[m[1]], valid=B.tabs.some(function(t){return t[0]===m[2]});
+    var wantTab=valid?m[2]:B.tabs[0][0];
+    if(m[1]!==brand || wantTab!==tab) showBrand(m[1],wantTab,false);
+  }
+  function onMQ(){ var was=portrait; portrait=MQ.matches; if(was!==portrait && brand){ fingerAt=null; run(); } }
+  if(MQ.addEventListener) MQ.addEventListener('change',onMQ); else if(MQ.addListener) MQ.addListener(onMQ);
+  window.addEventListener('hashchange',fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>

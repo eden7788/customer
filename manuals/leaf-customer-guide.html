@@ -132,6 +132,8 @@
   .icon-manual svg{ color:#12B76A; }
   .icon-wifi{ background:#E0F7FA; }
   .icon-wifi svg{ color:#0E7490; }
+  .icon-mode{ background:#F1F5F9; }
+  .icon-mode svg{ color:#475569; }
   .icon-ac{ background:#EAF6FF; }
   .icon-ac svg{ color:#0B96D0; }
   .icon-holiday{ background:#FFF0F6; }
@@ -1243,6 +1245,30 @@
       </div>
 
       <div class="hint">※ 리모컨/패널 제어는 정상인데 앱 제어만 안 되는 경우에는 연결 상태를 확인해 주세요.</div>
+
+      <div class="submenu" style="margin-top:20px;">
+        <button class="menu-card" onclick="showView('acmode')">
+          <div class="menu-icon icon-mode">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 3l4 4-4 4"/><path d="M3 7h18"/><path d="M7 21l-4-4 4-4"/><path d="M21 17H3"/>
+            </svg>
+          </div>
+          <div class="menu-text">
+            <div class="title">냉↔난방 전환이 안돼요</div>
+            <div class="desc">삼성 · LG · 캐리어 제조사별 확인 방법</div>
+          </div>
+          <div class="chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AC MODE SWITCH ISSUE VIEW -->
+  <div class="view" id="view-acmode">
+    <div class="content" style="padding:0;">
+      <iframe src="aircon-mode-guide.html" title="냉난방 전환이 안돼요"
+        style="width:100%; height:1400px; border:0; display:block;"
+        loading="lazy"></iframe>
     </div>
   </div>
 
@@ -1288,6 +1314,7 @@
     invite: '관리자 초대',
     account: '계정 찾기',
     acpower: '에어컨 가동 문제',
+    acmode: '냉난방 전환이 안돼요',
     manual: '앱 매뉴얼',
     wifi: '와이파이 변경 방법',
     holiday: '휴무일 설정하기',
@@ -1300,6 +1327,16 @@
     btn.closest('.content').querySelectorAll('.pane2').forEach(p => p.classList.remove('on'));
     document.getElementById(paneId).classList.add('on');
   }
+
+  window.addEventListener('message', function(e){
+    var f = document.querySelector('#view-acmode iframe');
+    if (!f || e.source !== f.contentWindow || !e.data) return;
+    if (e.data.type === 'guide-height' && isFinite(e.data.height)) {
+      f.style.height = Math.min(Math.max(Math.ceil(e.data.height), 300), 6000) + 'px';
+    } else if (e.data.type === 'guide-top') {
+      window.scrollTo(0, Math.max(0, f.getBoundingClientRect().top + window.scrollY - 56));
+    }
+  });
 
   function toggleAccordion(headerEl){
     const item = headerEl.closest('.accordion-item');

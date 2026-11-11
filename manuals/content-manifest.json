@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "1.3.0",
-  "updatedAt": "2026-11-10",
+  "contentVersion": "1.4.0",
+  "updatedAt": "2026-11-11",
   "owner": "운영팀",
   "entrypoints": [
     {
@@ -51,6 +51,12 @@
       "product": "캡스",
       "title": "캡스 관리자 내보내기 안내",
       "description": "권한 관리 화면에서 관리자 내보내기 방법"
+    },
+    {
+      "file": "aircon-mode-guide.html",
+      "product": "리프·캡스 공통",
+      "title": "냉방·난방 전환이 안될 때 (삼성·LG·캐리어)",
+      "description": "제조사별 냉방·난방 선택이 안 될 때 확인하는 방법"
     }
   ]
 }
