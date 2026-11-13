@@ -1,0 +1,49 @@
+# manuals/ 폴더를 GitHub Pages 사이트 루트로 배포한다.
+# 배포 후 URL: https://eden7788.github.io/customer/<HTML 파일명>
+name: Deploy manuals to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "manuals/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate manifest entrypoints
+        run: |
+          python3 -m json.tool manuals/content-manifest.json >/dev/null
+          python3 - <<'PY'
+          import json, pathlib, sys
+          m = json.load(open("manuals/content-manifest.json"))
+          missing = [e["file"] for e in m["entrypoints"] if not (pathlib.Path("manuals") / e["file"]).is_file()]
+          if missing:
+              sys.exit(f"missing entrypoints: {missing}")
+          PY
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: manuals
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
